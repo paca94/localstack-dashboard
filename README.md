@@ -1,4 +1,4 @@
-# localstack_dashboard_client
+# Localstack Dashboard
 
 local stack dashboard implemented with flutter + riverpod.
 
