@@ -8,16 +8,6 @@ import 'package:localstack_dashboard_client/src/providers/sqs/service_provider.d
 import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
 import 'package:localstack_dashboard_client/src/widgets/sqs/sqs_detail.dart';
 
-// final service = SQS(region: 'eu-west-1');
-// final sqsServiceProvider = Provider((_) => SQS(
-//     endpointUrl: "http://localhost:24566/",
-//     region: 'eu-west-1',
-//     credentials: AwsClientCredentials(secretKey: 'fake', accessKey: 'fake')));
-//
-// final sqsListProvider = StateProvider((_) {
-//   return <String>[];
-// });
-
 final expandableProvider =
     StateProvider((ref) => <String, ExpandableController>{});
 
@@ -27,8 +17,6 @@ class Sqs extends HookConsumerWidget {
   }) : super(key: key);
 
   Future<void> listQueues(WidgetRef ref) async {
-    // final ListQueuesResult rs = await sqsService.listQueues();
-    // ref.read(sqsListProvider.state).state = rs.queueUrls!;
     ref.refresh(sqsListRefreshProvider);
   }
 
@@ -85,16 +73,6 @@ class Sqs extends HookConsumerWidget {
 
   Widget buildQueueInfo(
       String currentUrl, BuildContext context, WidgetRef ref, SQS sqsService) {
-    // final expandableMap = ref.watch(expandableProvider);
-    // ExpandableController expandableController;
-    // if (expandableMap[currentUrl] == null) {
-    //   expandableController = ExpandableController();
-    //   ref.read(expandableProvider.state).state[currentUrl] =
-    //       expandableController;
-    // } else {
-    //   expandableController = expandableMap[currentUrl]!;
-    // }
-
     final info = Padding(
       padding: const EdgeInsets.all(1.0),
       child: Row(
@@ -115,22 +93,6 @@ class Sqs extends HookConsumerWidget {
       title: info,
       children: [SqsDetail(queueUrl: currentUrl)],
     );
-    // return ExpandableNotifier(
-    //   controller: expandableController,
-    //   child: Card(
-    //     child: Expandable(
-    //       collapsed: info,
-    //       expanded: Column(
-    //         children: [
-    //           info,
-    //           SqsDetail(
-    //             queueUrl: currentUrl,
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
   InkWell buildListQueueButton(WidgetRef ref, SQS sqsService) {
