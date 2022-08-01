@@ -71,7 +71,7 @@ class SqsDetail extends HookConsumerWidget {
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text("Clear"),
+                    child: Text("Purge"),
                   ),
                 ),
               ),
