@@ -11,9 +11,11 @@ packages:
   aws_sqs_api:
     dependency: "direct main"
     description:
-      path: "/Users/jihwankim/Documents/GitHub/aws_client/generated/aws_sqs_api"
-      relative: false
-    source: path
+      path: "generated/aws_sqs_api"
+      ref: master
+      resolved-ref: "8b28628b6467c1c5ab1170ce04bf5cecfb014925"
+      url: "git@github.com:paca94/aws_client.git"
+    source: git
     version: "1.2.0"
   boolean_selector:
     dependency: transitive
@@ -109,13 +111,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  folding_cell:
-    dependency: transitive
-    description:
-      name: folding_cell
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   hooks_riverpod:
     dependency: "direct main"
     description:
