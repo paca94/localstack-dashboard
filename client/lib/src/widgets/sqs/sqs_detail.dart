@@ -93,7 +93,7 @@ class SqsDetail extends HookConsumerWidget {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(e.key.toString()),
+                  Text(e.key.name),
                   Text(e.value),
                 ],
               );
