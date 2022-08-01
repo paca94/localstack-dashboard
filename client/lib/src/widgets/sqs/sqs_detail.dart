@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/models/sqs/create.dart';
 import 'package:localstack_dashboard_client/src/providers/sqs/service_provider.dart';
+import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
 
 final sqsDetailProvider =
     FutureProvider.family<Map<QueueAttributeName, String>, String>(
@@ -37,11 +41,11 @@ class SqsDetail extends HookConsumerWidget {
 
     final info = ref.watch(sqsDetailStateProvider(queueUrl));
 
-    return buildDetailInfo(ref, info);
+    return buildDetailInfo(context, ref, info);
   }
 
-  Widget buildDetailInfo(
-      WidgetRef ref, Map<QueueAttributeName, String> sqsDetail) {
+  Widget buildDetailInfo(BuildContext context, WidgetRef ref,
+      Map<QueueAttributeName, String> sqsDetail) {
     final sqsService = ref.watch(sqsServiceProvider);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -50,19 +54,7 @@ class SqsDetail extends HookConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Card(
-                child: InkWell(
-                  onTap: () async {
-                    await sqsService.sendMessage(
-                        messageBody: "messageBody", queueUrl: queueUrl);
-                    refresh(ref);
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("SendMessage"),
-                  ),
-                ),
-              ),
+              buildSendMessage(context, sqsService, ref),
               Card(
                 child: InkWell(
                   onTap: () async {
@@ -100,6 +92,28 @@ class SqsDetail extends HookConsumerWidget {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildSendMessage(BuildContext context, SQS sqsService, WidgetRef ref) {
+    return Card(
+      child: InkWell(
+        onTap: () async {
+          final ModelSqsMessageCreate? message =
+              await showSQSSendMessageDialog(context);
+          if (message == null) return;
+          final content = message.isEncodeToBase64
+              ? base64.encode(utf8.encode(message.messageContent))
+              : message.messageContent;
+          await sqsService.sendMessage(
+              messageBody: content, queueUrl: queueUrl);
+          refresh(ref);
+        },
+        child: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text("SendMessage"),
+        ),
       ),
     );
   }
