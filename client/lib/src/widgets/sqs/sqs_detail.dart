@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/enums.dart';
 import 'package:localstack_dashboard_client/src/models/sqs/create.dart';
 import 'package:localstack_dashboard_client/src/providers/sqs/service_provider.dart';
 import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
@@ -55,6 +56,7 @@ class SqsDetail extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               buildSendMessage(context, sqsService, ref),
+              buildReceiveMessage(context, sqsService, ref),
               Card(
                 child: InkWell(
                   onTap: () async {
@@ -114,6 +116,93 @@ class SqsDetail extends HookConsumerWidget {
           padding: EdgeInsets.all(8.0),
           child: Text("SendMessage"),
         ),
+      ),
+    );
+  }
+
+  Widget buildReceiveMessage(
+      BuildContext context, SQS sqsService, WidgetRef ref) {
+    return Card(
+      child: InkWell(
+        onTap: () async {
+          final Future<ReceiveMessageResult> receivedMessage =
+              sqsService.receiveMessage(queueUrl: queueUrl);
+          refresh(ref);
+          final SQSReceiveMessageActionEnum receiveMessageAction =
+              await showSQSReceiveMessageResultDialog(context, receivedMessage,
+                      buildReceiveMessageDialogContent) ??
+                  SQSReceiveMessageActionEnum.rollback;
+
+          if (receiveMessageAction == SQSReceiveMessageActionEnum.rollback) {
+            final value = (await receivedMessage).messages!.first;
+            await sqsService.changeMessageVisibility(
+                queueUrl: queueUrl,
+                receiptHandle: value.receiptHandle!,
+                visibilityTimeout: 0);
+          }
+
+          // if receiveMessageAction == SQSReceiveMessageActionEnum.ignore,
+          // do not any action.
+          // received message will be NotVisible
+
+          if (receiveMessageAction == SQSReceiveMessageActionEnum.delete) {
+            final value = (await receivedMessage).messages!.first;
+            await sqsService.deleteMessage(
+                queueUrl: queueUrl, receiptHandle: value.receiptHandle!);
+          }
+
+          refresh(ref);
+        },
+        child: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text("ReceiveMessage"),
+        ),
+      ),
+    );
+  }
+
+  buildReceiveMessageDialogContent(ReceiveMessageResult value) {
+    final message = value.messages!.first;
+    String messageBody;
+    bool isBase64Body = false;
+    try {
+      messageBody = utf8.decode(base64.decode(message.body!));
+      isBase64Body = true;
+    } catch (e) {
+      messageBody = message.body!;
+      isBase64Body = false;
+    }
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "MessageId",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+          Card(
+              child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Text(message.messageId!),
+          )),
+          Container(
+            padding: const EdgeInsets.all(4),
+            height: 1,
+            width: double.infinity,
+          ),
+          Text(
+            "Body ${isBase64Body ? "(base64 decoded)" : ""}",
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Text(messageBody),
+            ),
+          ),
+        ],
       ),
     );
   }

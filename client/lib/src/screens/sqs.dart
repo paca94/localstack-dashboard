@@ -3,6 +3,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/models/sqs/create.dart';
 import 'package:localstack_dashboard_client/src/providers/sqs/list_provider.dart';
 import 'package:localstack_dashboard_client/src/providers/sqs/service_provider.dart';
 import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
@@ -119,10 +120,12 @@ class Sqs extends HookConsumerWidget {
         ),
       ),
       onTap: () async {
-        String? queueName = await showTextInputDialog(context);
-        final isCreate = (queueName ?? "").isNotEmpty;
-        if (!isCreate) return;
-        await sqsService.createQueue(queueName: queueName!);
+        ModelSqsCreate? info = await showSQSCreateQueueDialog(context);
+        if (info == null) return;
+        // print({QueueAttributeName.fifoQueue: "${info.isFifo}"});
+        await sqsService.createQueue(
+            queueName: info.queueName,
+            attributes: {QueueAttributeName.fifoQueue: "${info.isFifo}"});
         listQueues(ref);
       },
     );
