@@ -2,7 +2,7 @@ import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/enums.dart';
-import 'package:localstack_dashboard_client/src/models/sqs/create.dart';
+import 'package:localstack_dashboard_client/src/sqs/models/create.dart';
 
 Future<ModelSqsCreate?> showSQSCreateQueueDialog(context) async {
   return await showDialog(

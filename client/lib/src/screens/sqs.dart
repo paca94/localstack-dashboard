@@ -3,11 +3,11 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/models/sqs/create.dart';
-import 'package:localstack_dashboard_client/src/providers/sqs/list_provider.dart';
-import 'package:localstack_dashboard_client/src/providers/sqs/service_provider.dart';
+import 'package:localstack_dashboard_client/src/sqs/models/create.dart';
+import 'package:localstack_dashboard_client/src/sqs/providers/list_provider.dart';
+import 'package:localstack_dashboard_client/src/sqs/providers/service_provider.dart';
+import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detail.dart';
 import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
-import 'package:localstack_dashboard_client/src/widgets/sqs/sqs_detail.dart';
 
 final expandableProvider =
     StateProvider((ref) => <String, ExpandableController>{});
