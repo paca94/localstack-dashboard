@@ -1,8 +1,14 @@
 import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/config.dart';
+import 'package:localstack_dashboard_client/src/profiles/providers/profile_provider.dart';
 
-final sqsServiceProvider = Provider((_) => SQS(
-    endpointUrl: "http://${LocalStackConfig.host}:${LocalStackConfig.port}/",
-    region: LocalStackConfig.region,
-    credentials: AwsClientCredentials(secretKey: 'fake', accessKey: 'fake')));
+final sqsServiceProvider = Provider((ref) {
+  final profileController = ref.watch(profileControllerProvider);
+  final currentProfile = profileController.currentProfile;
+  return SQS(
+      endpointUrl: currentProfile.endpointUrl,
+      region: currentProfile.region,
+      credentials: AwsClientCredentials(
+          secretKey: currentProfile.accessKey,
+          accessKey: currentProfile.secretAccessKey));
+});

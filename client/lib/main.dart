@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/profiles/widgets/profile_button.dart';
+import 'package:localstack_dashboard_client/src/providers/db/db_provider.dart';
 
 import 'color_schemes.g.dart';
 import 'src/screens/home.dart';
 import 'src/screens/sqs.dart';
 
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+
+  final dbService = DatabaseService();
+  await dbService.init();
+
+  runApp(ProviderScope(overrides: [
+    databaseService.overrideWithValue(dbService),
+  ], child: const MyApp()));
 }
 
 class DestinationInfo {
@@ -52,32 +63,45 @@ class MyApp extends HookConsumerWidget {
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       themeMode: ThemeMode.system,
       home: Scaffold(
-        body: Row(
-          children: <Widget>[
-            NavigationRail(
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (int index) {
-                ref.read(navigationProvider.state).state = index;
-              },
-              labelType: NavigationRailLabelType.selected,
-              destinations: destinations
-                  .map(
-                    (DestinationInfo e) => NavigationRailDestination(
-                      icon: e.icon,
-                      selectedIcon: e.selectedIcon,
-                      label: e.label,
-                    ),
-                  )
-                  .toList(),
-            ),
-            const VerticalDivider(thickness: 1, width: 1),
-            // This is the main content.
+        body: buildAfterLoading(ref, selectedIndex, destinations),
+      ),
+    );
+  }
+
+  Row buildAfterLoading(
+      WidgetRef ref, int selectedIndex, List<DestinationInfo> destinations) {
+    return Row(
+      children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const ProfileButton(),
             Expanded(
-              child: destinations[selectedIndex].screen,
-            )
+              child: NavigationRail(
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (int index) {
+                  ref.read(navigationProvider.state).state = index;
+                },
+                labelType: NavigationRailLabelType.selected,
+                destinations: destinations
+                    .map(
+                      (DestinationInfo e) => NavigationRailDestination(
+                        icon: e.icon,
+                        selectedIcon: e.selectedIcon,
+                        label: e.label,
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
           ],
         ),
-      ),
+        const VerticalDivider(thickness: 1, width: 1),
+        // This is the main content.
+        Expanded(
+          child: destinations[selectedIndex].screen,
+        )
+      ],
     );
   }
 }

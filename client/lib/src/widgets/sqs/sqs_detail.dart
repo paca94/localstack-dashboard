@@ -34,11 +34,15 @@ class SqsDetail extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(sqsDetailProvider(queueUrl), (previous, next) {
-      if (next is AsyncData) {
-        ref.read(sqsDetailStateProvider(queueUrl).state).state = next.value!;
-      }
-    });
+    try {
+      ref.listen(sqsDetailProvider(queueUrl), (previous, next) {
+        if (next is AsyncData) {
+          ref.read(sqsDetailStateProvider(queueUrl).state).state = next.value!;
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
 
     final info = ref.watch(sqsDetailStateProvider(queueUrl));
 

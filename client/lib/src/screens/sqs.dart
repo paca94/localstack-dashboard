@@ -35,6 +35,14 @@ class Sqs extends HookConsumerWidget {
       if (next is AsyncData) {
         ref.read(sqsListProvider.state).state = next.value!;
       }
+      if (next is AsyncError) {
+        ref.read(sqsListProvider.state).state = [];
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Current Profile SQS Request Fail!'),
+          ),
+        );
+      }
     });
 
     return Center(
