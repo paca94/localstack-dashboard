@@ -40,6 +40,9 @@ class DatabaseService {
     );
     _encryptionKey = base64Url.decode(key!);
 
+    // del all hive data
+    // await Hive.deleteFromDisk();
+    
     await initProfile();
   }
 
@@ -47,7 +50,6 @@ class DatabaseService {
     Hive.registerAdapter(ProfileAdapter());
     profileBox = await Hive.openBox<ModelProfile>('profile',
         encryptionCipher: HiveAesCipher(_encryptionKey));
-    await profileBox.clear();
 
     //first time loading
     if (profileBox.values.isEmpty) {

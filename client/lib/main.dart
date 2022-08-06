@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/database/db_provider.dart';
 import 'package:localstack_dashboard_client/src/profiles/widgets/profile_button.dart';
-import 'package:localstack_dashboard_client/src/providers/db/db_provider.dart';
 
 import 'color_schemes.g.dart';
 import 'src/screens/home.dart';

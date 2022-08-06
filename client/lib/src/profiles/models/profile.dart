@@ -1,10 +1,9 @@
 import 'package:hive_flutter/hive_flutter.dart';
-
-const _typeId = 1;
+import 'package:localstack_dashboard_client/src/database/hive_types.dart';
 
 class ProfileAdapter extends TypeAdapter<ModelProfile> {
   @override
-  final typeId = _typeId;
+  final typeId = HiveTypes.profile;
 
   @override
   ModelProfile read(BinaryReader reader) {
@@ -32,7 +31,7 @@ class ProfileAdapter extends TypeAdapter<ModelProfile> {
   }
 }
 
-@HiveType(typeId: _typeId)
+@HiveType(typeId: HiveTypes.profile)
 class ModelProfile {
   ModelProfile(
       {required this.id,
