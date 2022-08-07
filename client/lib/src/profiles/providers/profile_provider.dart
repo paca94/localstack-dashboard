@@ -37,8 +37,7 @@ class UserProfileController with ChangeNotifier {
   }
 
   Future<void> addProfile(
-      {required int id,
-      required String alias,
+      {required String alias,
       required String profileType,
       String? endpointUrl,
       required String accessKey,
@@ -46,7 +45,6 @@ class UserProfileController with ChangeNotifier {
       required String region,
       required bool isSelect}) async {
     final newProfile = ModelProfile(
-        id: id,
         alias: alias,
         profileType: profileType,
         accessKey: accessKey,
@@ -60,5 +58,9 @@ class UserProfileController with ChangeNotifier {
   Future<void> removeProfile(ModelProfile removeProfile) async {
     await profileBox.delete(removeProfile.id);
     _profiles = profileBox.values.toList();
+  }
+
+  ModelProfile? getProfile(int profileId) {
+    return _profiles.firstWhere((element) => element.id == profileId);
   }
 }

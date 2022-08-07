@@ -1,5 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:localstack_dashboard_client/src/database/hive_types.dart';
+import 'package:localstack_dashboard_client/src/utils/generate_utils.dart';
 
 class ProfileAdapter extends TypeAdapter<ModelProfile> {
   @override
@@ -7,7 +8,7 @@ class ProfileAdapter extends TypeAdapter<ModelProfile> {
 
   @override
   ModelProfile read(BinaryReader reader) {
-    return ModelProfile(
+    return ModelProfile.fromExist(
         id: reader.read(),
         alias: reader.read(),
         profileType: reader.read(),
@@ -34,6 +35,16 @@ class ProfileAdapter extends TypeAdapter<ModelProfile> {
 @HiveType(typeId: HiveTypes.profile)
 class ModelProfile {
   ModelProfile(
+      {required this.alias,
+      required this.profileType,
+      this.endpointUrl,
+      required this.accessKey,
+      required this.secretAccessKey,
+      required this.region,
+      required this.isSelect})
+      : id = GenerateUtils.genId();
+
+  ModelProfile.fromExist(
       {required this.id,
       required this.alias,
       required this.profileType,
@@ -59,8 +70,4 @@ class ModelProfile {
   final String region;
   @HiveField(7)
   bool isSelect;
-
-  static int genId() {
-    return DateTime.now().millisecondsSinceEpoch - 1657961863274;
-  }
 }
