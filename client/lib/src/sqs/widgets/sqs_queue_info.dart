@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_delete_button.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detail.dart';
 
 class SqsQueueInfo extends HookConsumerWidget {
-  final String queueUrl;
+  final ModelSqsQueueInfo queue;
 
-  const SqsQueueInfo({Key? key, required this.queueUrl}) : super(key: key);
+  const SqsQueueInfo({Key? key, required this.queue}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
@@ -18,17 +19,17 @@ class SqsQueueInfo extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(2.0),
             child: Text(
-              queueUrl,
+              queue.queueUrl,
               style: const TextStyle(fontSize: 16),
             ),
           ),
-          SqsDeleteButton(queueUrl: queueUrl),
+          SqsDeleteButton(queue: queue),
         ],
       ),
     );
     return ExpansionTile(
       title: info,
-      children: [SqsDetail(queueUrl: queueUrl)],
+      children: [SqsDetail(queue: queue)],
     );
   }
 }

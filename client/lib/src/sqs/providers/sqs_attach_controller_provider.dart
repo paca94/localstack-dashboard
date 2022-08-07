@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/database/db_provider.dart';
 import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
 import 'package:localstack_dashboard_client/src/profiles/providers/profile_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/attach_queue.dart';
+import 'package:localstack_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
 
 final sqsAttachControllerProvider = ChangeNotifierProvider((ref) {
   final db = ref.watch(databaseService);
@@ -15,41 +15,46 @@ final sqsAttachControllerProvider = ChangeNotifierProvider((ref) {
 
 class SqsAttachQueueService extends ChangeNotifier {
   final Box<ModelProfile> _attachProfileBox;
-  final Box<ModelAttachQueue> _attachQueueBox;
+  final Box<ModelSqsAttachQueue> _attachQueueBox;
   final UserProfileController _userProfileController;
 
-  List<ModelAttachQueue> _currentProfileAttachQueues = <ModelAttachQueue>[];
+  List<ModelSqsAttachQueue> _currentProfileAttachQueues =
+      <ModelSqsAttachQueue>[];
 
-  List<ModelAttachQueue> get queues => _currentProfileAttachQueues;
+  List<ModelSqsAttachQueue> get queues => _currentProfileAttachQueues;
 
   SqsAttachQueueService(this._attachProfileBox, this._attachQueueBox,
       this._userProfileController) {
     // init list for current profile
-    _initQueueProfiles();
     _currentProfileAttachQueues = _getQueueList();
+    _initQueueProfiles();
   }
 
   // Attach profile information to target queues
   _initQueueProfiles() {
-    for (final currentAttachQueue in _attachQueueBox.values) {
-      if (currentAttachQueue.isSingleUseProfile) {
-        final ModelProfile? profile =
-            _attachProfileBox.get(currentAttachQueue.profileId);
-        if (profile != null) {
-          currentAttachQueue.setRealProfile(profile);
-        }
-      } else {
-        final ModelProfile? profile =
-            _userProfileController.getProfile(currentAttachQueue.profileId);
-        if (profile != null) {
-          currentAttachQueue.setRealProfile(profile);
-        }
+    for (final currentAttachQueue in _currentProfileAttachQueues) {
+      _setQueueProfile(currentAttachQueue);
+    }
+  }
+
+  _setQueueProfile(ModelSqsAttachQueue attachQueue) {
+    if (attachQueue.isSingleUseProfile) {
+      final ModelProfile? profile =
+          _attachProfileBox.get(attachQueue.profileId);
+      if (profile != null) {
+        attachQueue.setRealProfile(profile);
+      }
+    } else {
+      final ModelProfile? profile =
+          _userProfileController.getProfile(attachQueue.profileId);
+      if (profile != null) {
+        attachQueue.setRealProfile(profile);
       }
     }
   }
 
   // get registered queues by user profile id
-  List<ModelAttachQueue> _getQueueList() {
+  List<ModelSqsAttachQueue> _getQueueList() {
     final currentProfile = _userProfileController.currentProfile;
     return _attachQueueBox.values
         .where((element) => element.registerUserProfileId == currentProfile.id)
@@ -59,7 +64,8 @@ class SqsAttachQueueService extends ChangeNotifier {
   // attach use for exist user profile
   attachQueueForPermanentUserProfile(
       {required ModelProfile profile, required String queueUrl}) async {
-    final newQueue = ModelAttachQueue(
+    _checkDuplicatedRegister(queueUrl);
+    final newQueue = ModelSqsAttachQueue(
         registerUserProfileId: _userProfileController.currentProfile.id,
         profileId: profile.id,
         isSingleUseProfile: false,
@@ -79,6 +85,7 @@ class SqsAttachQueueService extends ChangeNotifier {
     // queue
     required String queueUrl,
   }) async {
+    _checkDuplicatedRegister(queueUrl);
     final newProfile = ModelProfile(
         alias: 'single-alias',
         profileType: 'single-profile-type',
@@ -87,7 +94,7 @@ class SqsAttachQueueService extends ChangeNotifier {
         region: region,
         isSelect: false);
 
-    final newQueue = ModelAttachQueue(
+    final newQueue = ModelSqsAttachQueue(
         registerUserProfileId: _userProfileController.currentProfile.id,
         profileId: newProfile.id,
         isSingleUseProfile: true,
@@ -100,7 +107,8 @@ class SqsAttachQueueService extends ChangeNotifier {
   }
 
   // Attached queues cannot be deleted, only detached
-  Future<void> detachQueue(ModelAttachQueue delQueue) async {
+  Future<void> detachQueue(int queueId) async {
+    final delQueue = _attachQueueBox.get(queueId)!;
     if (delQueue.isSingleUseProfile) {
       // remove single profile
       await _attachProfileBox.delete(delQueue.profileId);
@@ -113,6 +121,26 @@ class SqsAttachQueueService extends ChangeNotifier {
 
   refreshQueues() {
     _currentProfileAttachQueues = _getQueueList();
+    _initQueueProfiles();
     notifyListeners();
+  }
+
+  ModelSqsAttachQueue getQueue(int queueId) {
+    final queue = _attachQueueBox.get(queueId)!;
+    _setQueueProfile(queue);
+    return queue;
+  }
+
+  _checkDuplicatedRegister(String queueUrl) {
+    try {
+      _currentProfileAttachQueues
+          .firstWhere((element) => element.queueUrl == queueUrl);
+      throw "duplicated!";
+    } catch (e) {
+      if (e is StateError) {
+      } else {
+        rethrow;
+      }
+    }
   }
 }

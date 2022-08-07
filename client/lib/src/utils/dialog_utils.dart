@@ -2,9 +2,12 @@ import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/enums.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/create.dart';
+import 'package:localstack_dashboard_client/src/sqs/models/sqs_message_create.dart';
+import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_create.dart';
+import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_attach_dialog_content.dart';
+import 'package:localstack_dashboard_client/src/utils/short_cut.dart';
 
-Future<ModelSqsCreate?> showSQSCreateQueueDialog(context) async {
+Future<ModelSqsQueueCreate?> showSQSCreateQueueDialog(context) async {
   return await showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -44,7 +47,7 @@ Future<ModelSqsCreate?> showSQSCreateQueueDialog(context) async {
               TextButton(
                 child: const Text('Submit'),
                 onPressed: () {
-                  Navigator.of(context).pop(ModelSqsCreate()
+                  Navigator.of(context).pop(ModelSqsQueueCreate()
                     ..queueName = editingController.text
                     ..isFifo = isFifo);
                 },
@@ -119,11 +122,7 @@ Future<SQSReceiveMessageActionEnum?> showSQSReceiveMessageResultDialog(context,
     Future<ReceiveMessageResult> receivedMessage, Function buildChild) async {
   final value = await receivedMessage;
   if (value.messages!.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('There are no messages in the queue'),
-      ),
-    );
+    ShortCutUtils.showSnackBar(context, 'There are no messages in the queue');
     return SQSReceiveMessageActionEnum.ignore;
   }
   return await showDialog(
@@ -175,6 +174,27 @@ Future<bool> showOkOrFalseDialog(context, String text) async {
               Navigator.of(context).pop(true);
             },
           ),
+        ],
+      );
+    },
+  );
+  return result ?? false;
+}
+
+Future<bool> showSqsAttachDialog(context) async {
+  bool? result = await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: const SqsAttachDialogContent(),
+        actions: [
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          ),
+          const SqsAttachDialogOkButton(),
         ],
       );
     },

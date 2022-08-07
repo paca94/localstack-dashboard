@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/enums.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_service_provider.dart';
+import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
+import 'package:localstack_dashboard_client/src/sqs/sqs_provider_mapper.dart';
 import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 
 class SqsReceiveMessageButton extends HookConsumerWidget {
-  final String queueUrl;
+  final ModelSqsQueueInfo queue;
 
-  const SqsReceiveMessageButton({Key? key, required this.queueUrl})
+  const SqsReceiveMessageButton({Key? key, required this.queue})
       : super(key: key);
 
   @override
@@ -21,10 +21,12 @@ class SqsReceiveMessageButton extends HookConsumerWidget {
     // TODO: implement build
     return CardButton(
       onTap: () async {
-        final sqsService = ref.watch(sqsServiceProvider);
+        final sqsService =
+            ref.watch(SQSProviderMapper.getSqsServiceProvider(queue));
         final Future<ReceiveMessageResult> receivedMessage =
-            sqsService.receiveMessage(queueUrl: queueUrl);
-        ref.refresh(sqsListRefreshProvider);
+            sqsService.receiveMessage(queueUrl: queue.queueUrl);
+        ref.refresh(SQSProviderMapper.detailFutureProvider(queue));
+
         final SQSReceiveMessageActionEnum receiveMessageAction =
             await showSQSReceiveMessageResultDialog(context, receivedMessage,
                     buildReceiveMessageDialogContent) ??
@@ -33,7 +35,7 @@ class SqsReceiveMessageButton extends HookConsumerWidget {
         if (receiveMessageAction == SQSReceiveMessageActionEnum.rollback) {
           final value = (await receivedMessage).messages!.first;
           await sqsService.changeMessageVisibility(
-              queueUrl: queueUrl,
+              queueUrl: queue.queueUrl,
               receiptHandle: value.receiptHandle!,
               visibilityTimeout: 0);
         }
@@ -45,10 +47,10 @@ class SqsReceiveMessageButton extends HookConsumerWidget {
         if (receiveMessageAction == SQSReceiveMessageActionEnum.delete) {
           final value = (await receivedMessage).messages!.first;
           await sqsService.deleteMessage(
-              queueUrl: queueUrl, receiptHandle: value.receiptHandle!);
+              queueUrl: queue.queueUrl, receiptHandle: value.receiptHandle!);
         }
 
-        ref.refresh(sqsListRefreshProvider);
+        ref.refresh(SQSProviderMapper.detailFutureProvider(queue));
       },
       child: const Padding(
         padding: EdgeInsets.all(8.0),

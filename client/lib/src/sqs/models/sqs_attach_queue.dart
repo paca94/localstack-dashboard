@@ -3,22 +3,22 @@ import 'package:localstack_dashboard_client/src/database/hive_types.dart';
 import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
 import 'package:localstack_dashboard_client/src/utils/generate_utils.dart';
 
-class AttachQueueAdapter extends TypeAdapter<ModelAttachQueue> {
+class SqsAttachQueueAdapter extends TypeAdapter<ModelSqsAttachQueue> {
   @override
   final typeId = HiveTypes.sqsAttachQueue;
 
   @override
-  ModelAttachQueue read(BinaryReader reader) {
-    return ModelAttachQueue.fromExist(
-        id: reader.read(),
-        registerUserProfileId: reader.read(),
-        profileId: reader.read(),
+  ModelSqsAttachQueue read(BinaryReader reader) {
+    return ModelSqsAttachQueue.fromExist(
+        id: reader.readInt(),
+        registerUserProfileId: reader.readInt(),
+        profileId: reader.readInt(),
         isSingleUseProfile: reader.readBool(),
         queueUrl: reader.read());
   }
 
   @override
-  void write(BinaryWriter writer, ModelAttachQueue obj) {
+  void write(BinaryWriter writer, ModelSqsAttachQueue obj) {
     writer.writeInt(obj.id);
     writer.writeInt(obj.registerUserProfileId);
     writer.writeInt(obj.profileId);
@@ -28,7 +28,7 @@ class AttachQueueAdapter extends TypeAdapter<ModelAttachQueue> {
 }
 
 @HiveType(typeId: HiveTypes.sqsAttachQueue)
-class ModelAttachQueue {
+class ModelSqsAttachQueue {
   @HiveField(0)
   late final int id;
 
@@ -51,14 +51,14 @@ class ModelAttachQueue {
   }
 
   // only for AttachQueueAdapter. don't use other place
-  ModelAttachQueue(
+  ModelSqsAttachQueue(
       {required this.registerUserProfileId,
       required this.profileId,
       required this.isSingleUseProfile,
       required this.queueUrl})
       : id = GenerateUtils.genId();
 
-  ModelAttachQueue.fromExist(
+  ModelSqsAttachQueue.fromExist(
       {required this.id,
       required this.registerUserProfileId,
       required this.profileId,

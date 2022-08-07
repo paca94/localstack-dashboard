@@ -7,9 +7,10 @@ final sqsServiceProvider = Provider((ref) {
   final profileController = ref.watch(profileControllerProvider);
   final currentProfile = profileController.currentProfile;
   return SQS(
-      endpointUrl: currentProfile.endpointUrl,
-      region: currentProfile.region,
-      credentials: AwsClientCredentials(
-          secretKey: currentProfile.accessKey,
-          accessKey: currentProfile.secretAccessKey));
+    endpointUrl: currentProfile.endpointUrl,
+    region: currentProfile.region,
+    credentials: AwsClientCredentials(
+        secretKey: currentProfile.accessKey,
+        accessKey: currentProfile.secretAccessKey),
+  );
 });

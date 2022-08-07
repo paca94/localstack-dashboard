@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/attach_queue.dart';
+import 'package:localstack_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
 
 //** DATABASE CLASS */
 final databaseService = Provider<DatabaseService>((_) => DatabaseService());
@@ -12,7 +12,7 @@ final databaseService = Provider<DatabaseService>((_) => DatabaseService());
 class DatabaseService {
   late final Box<ModelProfile> profileBox;
   late final Box<ModelProfile> attachProfileBox;
-  late final Box<ModelAttachQueue> attachQueueBox;
+  late final Box<ModelSqsAttachQueue> attachQueueBox;
   late final _encryptionKey;
 
   init() async {
@@ -83,14 +83,14 @@ class DatabaseService {
   }
 
   Future<void> initAttachProfiles() async {
-    Hive.registerAdapter(ProfileAdapter());
     attachProfileBox = await Hive.openBox<ModelProfile>('attach_profile',
         encryptionCipher: HiveAesCipher(_encryptionKey));
   }
 
   Future<void> initAttachQueues() async {
-    Hive.registerAdapter(ProfileAdapter());
-    attachQueueBox = await Hive.openBox<ModelAttachQueue>('attach_sqs_queues',
+    Hive.registerAdapter(SqsAttachQueueAdapter());
+    attachQueueBox = await Hive.openBox<ModelSqsAttachQueue>(
+        'attach_sqs_queues',
         encryptionCipher: HiveAesCipher(_encryptionKey));
   }
 }
