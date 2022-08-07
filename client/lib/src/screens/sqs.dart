@@ -2,7 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/list_provider.dart';
+import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_create_button.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_queue_list.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_refresh_button.dart';

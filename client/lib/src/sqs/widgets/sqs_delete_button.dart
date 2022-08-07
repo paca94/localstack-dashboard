@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/list_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/service_provider.dart';
+import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
+import 'package:localstack_dashboard_client/src/sqs/providers/sqs_service_provider.dart';
 import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 

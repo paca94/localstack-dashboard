@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/list_provider.dart';
+import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_queue_info.dart';
 
 class SqsQueueList extends HookConsumerWidget {
@@ -17,8 +17,8 @@ class SqsQueueList extends HookConsumerWidget {
         child: ListView.builder(
           itemCount: sqsList.length,
           itemBuilder: (context, index) {
-            final currentUrl = sqsList[index];
-            return SqsQueueInfo(queueUrl: currentUrl);
+            final queueUrl = sqsList[index];
+            return SqsQueueInfo(queueUrl: queueUrl);
           },
         ),
       ),
