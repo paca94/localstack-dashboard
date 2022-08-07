@@ -26,6 +26,7 @@ Currently under development for SQS.
 - [ ] logger deps apply
 - [ ] implement provider test
 - [ ] id generator implemented in a different way
+- [ ] aws sqs compatibility check
 
 ## Features
 - [ ] Web/Mobile Support
