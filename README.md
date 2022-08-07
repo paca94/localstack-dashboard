@@ -6,48 +6,70 @@ The end goal is to support all features on [localstack](https://docs.localstack.
 
 Currently under development for SQS.
 
+## first demo version min sepc
+- [X] SQS
+  - [X] create queue
+  - [X] delete queue
+  - [X] attach queue
+  - [X] detach queue
+  - [X] send message
+  - [X] receive message
+  - [X] purge
+  - [X] get queue attributes
+  - [ ] copy queue url
+- [ ] Profile
+  - [ ] create profile
+  - [ ] update profile
+  - [ ] delete profile
+  - [X] select profile
+- [ ] set use router
+- [ ] logger deps apply
+- [ ] implement provider test
 
 ## Features
-
-- [ ] Amplify
-- [ ] API Gateway V2
-- [ ] AppSync
-- [ ] Athena
-- [ ] Backup
-- [ ] CloudFormation
-- [ ] CloudFront
-- [ ] CloudWatch
-- [ ] CodeCommit
-- [ ] Cognito
-- [ ] Elastic Compute Cloud (EC2)
-- [ ] Elastic Container Registry (ECR)
-- [ ] Elastic Container Service (ECS)
-- [ ] Elastic Kubernetes Service (EKS)
-- [ ] Elastic Load Balancing
-- [ ] Elastic MapReduce (EMR)
-- [ ] ElastiCache
-- [ ] Elasticsearch Service
-- [ ] Glue
-- [ ] Identity and Access Management (IAM)
-- [ ] IoT
-- [ ] Kinesis
-- [ ] Kinesis Data Analytics
-- [ ] Kinesis Data Firehose
-- [ ] Lambda
-- [ ] Managed Streaming for Kafka (MSK)
-- [ ] Neptune
-- [ ] OpenSearch Service
-- [ ] Quantum Ledger Database (QLDB)
-- [ ] Relational Database Service (RDS)
-- [ ] Route53
-- [ ] S3
-- [ ] SageMaker
-- [ ] Simple Email Service (SES)
-- [ ] Simple Queue Service (SQS)
-- [ ] Systems Manager (SSM)
-- [ ] Timestream
-- [ ] Transfer
-- [ ] XRay Tracing
+- [ ] Web/Mobile Support
+  - [ ] responsive ui
+  - [ ] data save to personal store
+- [ ] AWS
+  - [ ] Amplify
+  - [ ] API Gateway V2
+  - [ ] AppSync
+  - [ ] Athena
+  - [ ] Backup
+  - [ ] CloudFormation
+  - [ ] CloudFront
+  - [ ] CloudWatch
+  - [ ] CodeCommit
+  - [ ] Cognito
+  - [ ] Elastic Compute Cloud (EC2)
+  - [ ] Elastic Container Registry (ECR)
+  - [ ] Elastic Container Service (ECS)
+  - [ ] Elastic Kubernetes Service (EKS)
+  - [ ] Elastic Load Balancing
+  - [ ] Elastic MapReduce (EMR)
+  - [ ] ElastiCache
+  - [ ] Elasticsearch Service
+  - [ ] Glue
+  - [ ] Identity and Access Management (IAM)
+  - [ ] IoT
+  - [ ] Kinesis
+  - [ ] Kinesis Data Analytics
+  - [ ] Kinesis Data Firehose
+  - [ ] Lambda
+  - [ ] Managed Streaming for Kafka (MSK)
+  - [ ] Neptune
+  - [ ] OpenSearch Service
+  - [ ] Quantum Ledger Database (QLDB)
+  - [ ] Relational Database Service (RDS)
+  - [ ] Route53
+  - [ ] S3
+  - [ ] SageMaker
+  - [ ] Simple Email Service (SES)
+  - [ ] Simple Queue Service (SQS)
+  - [ ] Systems Manager (SSM)
+  - [ ] Timestream
+  - [ ] Transfer
+  - [ ] XRay Tracing
 
 ## Screen Example
 
