@@ -25,6 +25,7 @@ Currently under development for SQS.
 - [ ] set use router
 - [ ] logger deps apply
 - [ ] implement provider test
+- [ ] id generator implemented in a different way
 
 ## Features
 - [ ] Web/Mobile Support
