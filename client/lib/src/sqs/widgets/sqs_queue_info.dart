@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_delete_button.dart';
+import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detach_button.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detail.dart';
 
 class SqsQueueInfo extends HookConsumerWidget {
@@ -23,7 +24,9 @@ class SqsQueueInfo extends HookConsumerWidget {
               style: const TextStyle(fontSize: 16),
             ),
           ),
-          SqsDeleteButton(queue: queue),
+          queue.isAttach
+              ? SqsDetachButton(queue: queue)
+              : SqsDeleteButton(queue: queue)
         ],
       ),
     );
