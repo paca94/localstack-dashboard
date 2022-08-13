@@ -15,15 +15,26 @@ class SqsQueueList extends HookConsumerWidget {
     return Card(
       child: SizedBox(
         width: double.infinity,
-        child: ListView.builder(
-          shrinkWrap: true,
-          controller: ScrollController(),
-          itemCount: sqsList.length,
-          itemBuilder: (context, index) {
-            final queue = sqsList[index];
-            return SqsQueueInfo(queue: queue);
-          },
-        ),
+        child: sqsList.length == 0
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:
+                        Text("Not Exist : ${isAttach ? "Attach" : "Profile"}"),
+                  ),
+                ],
+              )
+            : ListView.builder(
+                shrinkWrap: true,
+                controller: ScrollController(),
+                itemCount: sqsList.length,
+                itemBuilder: (context, index) {
+                  final queue = sqsList[index];
+                  return SqsQueueInfo(queue: queue);
+                },
+              ),
       ),
     );
   }
