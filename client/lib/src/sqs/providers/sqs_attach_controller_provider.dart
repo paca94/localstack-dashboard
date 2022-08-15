@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/database/db_provider.dart';
+import 'package:localstack_dashboard_client/src/enums.dart';
 import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
 import 'package:localstack_dashboard_client/src/profiles/providers/profile_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
@@ -79,6 +80,7 @@ class SqsAttachQueueService extends ChangeNotifier {
   Future<void> attachQueueForSingleUseProfile({
     // profile
     String? endpointUrl,
+    required SupportServiceTypes profileType,
     required String accessKey,
     required String secretAccessKey,
     required String region,
@@ -88,7 +90,7 @@ class SqsAttachQueueService extends ChangeNotifier {
     _checkDuplicatedRegister(queueUrl);
     final newProfile = ModelProfile(
         alias: 'single-alias',
-        profileType: 'single-profile-type',
+        profileType: profileType,
         accessKey: accessKey,
         secretAccessKey: secretAccessKey,
         region: region,

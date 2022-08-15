@@ -1,5 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:localstack_dashboard_client/src/database/hive_types.dart';
+import 'package:localstack_dashboard_client/src/enums.dart';
+import 'package:localstack_dashboard_client/src/enums_extension.dart';
 import 'package:localstack_dashboard_client/src/utils/generate_utils.dart';
 
 class ProfileAdapter extends TypeAdapter<ModelProfile> {
@@ -11,7 +13,7 @@ class ProfileAdapter extends TypeAdapter<ModelProfile> {
     return ModelProfile.fromExist(
         id: reader.read(),
         alias: reader.read(),
-        profileType: reader.read(),
+        profileType: reader.readString().supportServiceType,
         endpointUrl: reader.read(),
         accessKey: reader.read(),
         secretAccessKey: reader.read(),
@@ -23,7 +25,7 @@ class ProfileAdapter extends TypeAdapter<ModelProfile> {
   void write(BinaryWriter writer, ModelProfile obj) {
     writer.write(obj.id);
     writer.write(obj.alias);
-    writer.write(obj.profileType);
+    writer.writeString(obj.profileType.name);
     writer.write(obj.endpointUrl);
     writer.write(obj.accessKey);
     writer.write(obj.secretAccessKey);
@@ -61,15 +63,25 @@ class ModelProfile {
     required this.region,
   })  : id = GenerateUtils.genId(),
         alias = "singleUseProfile",
-        profileType = "temp",
+        profileType = SupportServiceTypes.other,
         isSelect = false;
+
+  ModelProfile.forCreateDefault()
+      : id = GenerateUtils.genId(),
+        alias = "create-${GenerateUtils.genId()}",
+        profileType = SupportServiceTypes.other,
+        endpointUrl = "",
+        accessKey = "",
+        secretAccessKey = "",
+        region = "",
+        isSelect = true;
 
   @HiveField(0)
   final int id;
   @HiveField(1)
   final String alias;
   @HiveField(2)
-  final String profileType;
+  final SupportServiceTypes profileType;
   @HiveField(3)
   final String? endpointUrl;
   @HiveField(4)

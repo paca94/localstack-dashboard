@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
 import 'package:localstack_dashboard_client/src/profiles/providers/profile_provider.dart';
+import 'package:localstack_dashboard_client/src/profiles/widgets/profile_setting_dialog.dart';
 
 class ProfileButton extends HookConsumerWidget {
   const ProfileButton({Key? key}) : super(key: key);
@@ -11,13 +12,21 @@ class ProfileButton extends HookConsumerWidget {
     final profileController = ref.watch(profileControllerProvider);
     return PopupMenuButton(
       tooltip: "Show Profiles",
-      onSelected: (ModelProfile value) {
-        profileController.changeProfile(value);
+      onSelected: (Object value) {
+        if (value is ModelProfile) {
+          profileController.changeProfile(value);
+        }
+
+        if (value is String) {
+          if (value == "SETTING") {
+            showProfileSettingDialog(context);
+          }
+        }
       },
       itemBuilder: (BuildContext context) {
-        return <PopupMenuEntry<ModelProfile>>[
+        return <PopupMenuEntry<Object>>[
           ...profileController.profiles.map(
-            (e) => PopupMenuItem<ModelProfile>(
+            (e) => PopupMenuItem<Object>(
               value: e,
               child: Row(
                 children: [
@@ -31,7 +40,11 @@ class ProfileButton extends HookConsumerWidget {
                 ],
               ),
             ),
-          )
+          ),
+          const PopupMenuItem<Object>(
+            value: "SETTING",
+            child: Center(child: Icon(Icons.settings)),
+          ),
         ];
       },
       child: const Padding(

@@ -54,12 +54,12 @@ class Sqs extends HookConsumerWidget {
                 SqsRefreshButton(),
               ],
             ),
-            const Flexible(flex: 1, child: SqsQueueList()),
+            const Flexible(child: SqsQueueList()),
             const Flexible(
-                flex: 1,
-                child: SqsQueueList(
-                  isAttach: true,
-                )),
+              child: SqsQueueList(
+                isAttach: true,
+              ),
+            ),
           ],
         ),
       ),

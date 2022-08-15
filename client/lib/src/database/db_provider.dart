@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/enums.dart';
 import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
 import 'package:localstack_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
 
@@ -19,6 +20,9 @@ class DatabaseService {
     await initSecure();
 
     // del all hive data
+    // await Hive.deleteBoxFromDisk('profile');
+    // await Hive.deleteBoxFromDisk('attach_profile');
+    // await Hive.deleteBoxFromDisk('attach_sqs_queues');
     // await Hive.deleteFromDisk();
     await initProfiles();
     await initAttachProfiles();
@@ -63,7 +67,7 @@ class DatabaseService {
     if (profileBox.values.isEmpty) {
       final defaultProfile = ModelProfile(
           alias: "localstack",
-          profileType: "localStack",
+          profileType: SupportServiceTypes.other,
           endpointUrl: "http://localhost:4566",
           accessKey: "fake",
           secretAccessKey: "fake",
@@ -72,7 +76,7 @@ class DatabaseService {
       await profileBox.put(defaultProfile.id, defaultProfile);
       final defaultProfile2 = ModelProfile(
           alias: "localstack2",
-          profileType: "localStack",
+          profileType: SupportServiceTypes.other,
           endpointUrl: "http://localhost:4567",
           accessKey: "fake",
           secretAccessKey: "fake",

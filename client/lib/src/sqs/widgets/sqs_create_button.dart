@@ -1,4 +1,3 @@
-import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_create.dart';
@@ -13,8 +12,9 @@ class SqsCreateButton extends HookConsumerWidget {
   Future<void> _createQueue(WidgetRef ref, ModelSqsQueueCreate info) async {
     final sqsService = ref.watch(sqsServiceProvider);
     await sqsService.createQueue(
-        queueName: info.queueName,
-        attributes: {QueueAttributeName.fifoQueue: "${info.isFifo}"});
+      queueName: info.queueName,
+      attributes: {}, //{QueueAttributeName.fifoQueue: info.isFifo.toString()},
+    );
     ref.refresh(sqsListRefreshProvider);
   }
 

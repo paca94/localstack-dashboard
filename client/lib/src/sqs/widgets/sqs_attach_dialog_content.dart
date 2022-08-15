@@ -139,6 +139,7 @@ class SqsAttachDialogOkButton extends HookConsumerWidget {
                   final ModelProfile currentProfile =
                       ref.read(singleUseProfileProvider)!;
                   await controller.attachQueueForSingleUseProfile(
+                      profileType: currentProfile.profileType,
                       accessKey: currentProfile.accessKey,
                       secretAccessKey: currentProfile.secretAccessKey,
                       region: currentProfile.region,
