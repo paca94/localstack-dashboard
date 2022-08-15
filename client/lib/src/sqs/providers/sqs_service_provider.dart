@@ -10,7 +10,7 @@ final sqsServiceProvider = Provider((ref) {
     endpointUrl: currentProfile.endpointUrl,
     region: currentProfile.region,
     credentials: AwsClientCredentials(
-        secretKey: currentProfile.accessKey,
-        accessKey: currentProfile.secretAccessKey),
+        accessKey: currentProfile.accessKey,
+        secretKey: currentProfile.secretAccessKey),
   );
 });

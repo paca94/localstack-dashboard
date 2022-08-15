@@ -38,7 +38,7 @@ dependencies:
   flutter_hooks: ^0.18.5+1
   aws_sqs_api: # ^1.2.0
     git:
-      url: git@github.com:agilord/aws_client.git
+      url: git@github.com:paca94/aws_client.git
       path: generated/aws_sqs_api
       ref: master # branch name
   expandable: ^5.0.1

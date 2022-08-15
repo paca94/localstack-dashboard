@@ -14,8 +14,8 @@ final sqsAttachServiceProvider =
     endpointUrl: profile.endpointUrl,
     region: profile.region,
     credentials: AwsClientCredentials(
-      secretKey: profile.accessKey,
-      accessKey: profile.secretAccessKey,
+      accessKey: profile.accessKey,
+      secretKey: profile.secretAccessKey,
     ),
   );
 });

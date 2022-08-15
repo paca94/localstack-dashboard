@@ -13,8 +13,8 @@ packages:
     description:
       path: "generated/aws_sqs_api"
       ref: master
-      resolved-ref: "4c4018d17f85636ce58bfee6dc04bddad46e8fd5"
-      url: "git@github.com:agilord/aws_client.git"
+      resolved-ref: f916ea1cebbac1bce9ca1c27c93aa81ce013ac57
+      url: "git@github.com:paca94/aws_client.git"
     source: git
     version: "1.2.0"
   boolean_selector:

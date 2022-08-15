@@ -54,15 +54,15 @@ class ModelProfile {
       required this.region,
       required this.isSelect});
 
-  ModelProfile.forSingleUse(
-      {this.endpointUrl,
-      required this.accessKey,
-      required this.secretAccessKey,
-      required this.region,
-      required this.isSelect})
-      : id = GenerateUtils.genId(),
+  ModelProfile.forSingleUse({
+    this.endpointUrl,
+    required this.accessKey,
+    required this.secretAccessKey,
+    required this.region,
+  })  : id = GenerateUtils.genId(),
         alias = "singleUseProfile",
-        profileType = "temp";
+        profileType = "temp",
+        isSelect = false;
 
   @HiveField(0)
   final int id;

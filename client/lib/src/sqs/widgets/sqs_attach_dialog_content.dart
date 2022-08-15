@@ -19,6 +19,14 @@ final disposeProvider = Provider.autoDispose((ref) {
     ref.read(singleUseProfileProvider.state).state = null;
     ref.read(queueAttachTestStateProvider.state).state = null;
     ref.read(queueAttachErrorProvider.state).state = null;
+
+    /// single use profile
+    ref.read(awsOrEtcProvider.state).state = "AWS";
+    ref.read(notExistProfileEndpointUrlProvider.state).state = null;
+    ref.read(notExistProfileAccessKeyProvider.state).state = null;
+    ref.read(notExistProfileSecretAccessKeyProvider.state).state = null;
+    ref.read(notExistProfileForAWSRegionProvider.state).state = "us-east-1";
+    ref.read(notExistProfileForEtcRegionProvider.state).state = null;
   });
   return null;
 });
@@ -32,6 +40,19 @@ final queueAttachTestStateProvider =
     StateProvider<FutureActionEnum?>((ref) => null);
 final queueAttachErrorProvider = StateProvider<String?>((ref) => null);
 
+/// _SingleUseProfileSelect
+final awsOrEtcProvider = StateProvider<String>((ref) => "AWS");
+final notExistProfileEndpointUrlProvider =
+    StateProvider<String?>((ref) => null);
+final notExistProfileAccessKeyProvider = StateProvider<String?>((ref) => null);
+final notExistProfileSecretAccessKeyProvider =
+    StateProvider<String?>((ref) => null);
+final notExistProfileForEtcRegionProvider =
+    StateProvider<String?>((ref) => null);
+final notExistProfileForAWSRegionProvider =
+    StateProvider<String?>((ref) => "us-east-1");
+
+/// _AttachQueueConnectTest
 final queueAttachTestFutureProvider = FutureProvider<bool?>((ref) async {
   final queueUrl = ref.read(queueUrlInputProvider);
   if (queueUrl.isEmpty) return null;
@@ -40,15 +61,26 @@ final queueAttachTestFutureProvider = FutureProvider<bool?>((ref) async {
   if (isExistProfileUse) {
     selectProfile = ref.read(selectedProfileProvider)!;
   } else {
-    selectProfile = ref.read(singleUseProfileProvider)!;
+    final awsOrEtc = ref.read(awsOrEtcProvider);
+    selectProfile = ModelProfile.forSingleUse(
+      endpointUrl: ref.read(notExistProfileEndpointUrlProvider),
+      accessKey: ref.read(notExistProfileAccessKeyProvider) ?? "",
+      secretAccessKey: ref.read(notExistProfileSecretAccessKeyProvider) ?? "",
+      region: awsOrEtc == "AWS"
+          ? ref.read(notExistProfileForAWSRegionProvider) ?? ""
+          : ref.read(notExistProfileForEtcRegionProvider) ?? "",
+    );
+    Future.delayed(Duration.zero, () {
+      ref.read(singleUseProfileProvider.state).state = selectProfile;
+    });
   }
 
   final SQS sqs = SQS(
     endpointUrl: selectProfile.endpointUrl,
     region: selectProfile.region,
     credentials: AwsClientCredentials(
-        secretKey: selectProfile.accessKey,
-        accessKey: selectProfile.secretAccessKey),
+        accessKey: selectProfile.accessKey,
+        secretKey: selectProfile.secretAccessKey),
   );
   final GetQueueAttributesResult readResult = await sqs.getQueueAttributes(
       queueUrl: queueUrl, attributeNames: [QueueAttributeName.all]);
@@ -114,7 +146,7 @@ class SqsAttachDialogOkButton extends HookConsumerWidget {
                 }
                 ref.refresh(sqsAttachListRefreshProvider);
                 Navigator.of(context).pop(true);
-              } catch (e) {
+              } catch (e, stack) {
                 ref.read(queueAttachTestStateProvider.state).state =
                     FutureActionEnum.fail;
                 ref.read(queueAttachErrorProvider.state).state =
@@ -200,8 +232,101 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isUseExistProfile = ref.watch(checkboxForUseExistProfileProvider);
+    final awsOrEtc = ref.watch(awsOrEtcProvider);
     if (!isUseExistProfile) {
-      return const Text("??");
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Radio<String>(
+                    value: "AWS",
+                    groupValue: awsOrEtc,
+                    onChanged: (v) {
+                      ref.read(awsOrEtcProvider.state).state = v!;
+                    },
+                  ),
+                  const Text("AWS"),
+                  Radio<String>(
+                    value: "ETC",
+                    groupValue: awsOrEtc,
+                    onChanged: (v) {
+                      ref.read(awsOrEtcProvider.state).state = v!;
+                    },
+                  ),
+                  const Text("ETC"),
+                ],
+              ),
+              // endpoint
+              if (awsOrEtc == "ETC")
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Endpoint Url'),
+                  onChanged: (String newUrl) {
+                    ref.read(notExistProfileEndpointUrlProvider.state).state =
+                        newUrl;
+                  },
+                ),
+              // access
+              TextField(
+                decoration: const InputDecoration(labelText: 'AccessKey'),
+                onChanged: (String newValue) {
+                  ref.read(notExistProfileAccessKeyProvider.state).state =
+                      newValue;
+                },
+              ),
+              // secret
+              TextField(
+                decoration: const InputDecoration(labelText: 'SecretAccessKey'),
+                onChanged: (String newValue) {
+                  ref.read(notExistProfileSecretAccessKeyProvider.state).state =
+                      newValue;
+                },
+              ),
+              // region
+              awsOrEtc == "ETC"
+                  ? TextField(
+                      decoration: const InputDecoration(labelText: 'Region'),
+                      onChanged: (String newValue) {
+                        ref
+                            .read(notExistProfileForEtcRegionProvider.state)
+                            .state = newValue;
+                      },
+                      controller: TextEditingController(
+                          text: ref.watch(notExistProfileForEtcRegionProvider)),
+                    )
+                  : Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text("Region"),
+                        ),
+                        DropdownButton<String>(
+                          value: ref.watch(notExistProfileForAWSRegionProvider),
+                          items: [
+                            "us-east-1",
+                            "ap-northeast-2",
+                          ]
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(e),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            ref
+                                .read(notExistProfileForAWSRegionProvider.state)
+                                .state = value;
+                          },
+                        ),
+                      ],
+                    ),
+            ],
+          ),
+        ),
+      );
     }
     return Container();
   }
@@ -224,9 +349,6 @@ class _AttachQueueConnectTest extends HookConsumerWidget {
         if (next is AsyncData) {
           if (next.value == null) {
             ref.read(queueAttachTestStateProvider.state).state = null;
-            // ref.read(queueAttachTestStateProvider.state).state =
-            //     FutureActionEnum.fail;
-            // ref.read(queueAttachTestErrorProvider.state).state = "Require Url";
           } else {
             ref.read(queueAttachTestStateProvider.state).state =
                 FutureActionEnum.success;

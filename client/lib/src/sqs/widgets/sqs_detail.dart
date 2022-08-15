@@ -51,8 +51,16 @@ class SqsDetail extends HookConsumerWidget {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(e.key.name),
-                  Text(e.value),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(e.key.name),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Flexible(child: Text(e.value)),
                 ],
               );
             },
