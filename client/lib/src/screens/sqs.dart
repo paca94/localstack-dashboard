@@ -2,6 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/logger.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_list_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_attach_button.dart';
@@ -9,6 +10,8 @@ import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_create_button.da
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_queue_list.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_refresh_button.dart';
 import 'package:localstack_dashboard_client/src/utils/short_cut.dart';
+
+final logger = getLogger();
 
 final expandableProvider =
     StateProvider((ref) => <String, ExpandableController>{});
@@ -21,10 +24,12 @@ class Sqs extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(sqsListRefreshProvider, (previous, next) {
+      logger.i(next);
       if (next is AsyncData) {
         ref.read(sqsListProvider.state).state = next.value!;
       }
       if (next is AsyncError) {
+        logger.e(next);
         ref.read(sqsListProvider.state).state = [];
         ShortCutUtils.showSnackBar(
             context, 'Current Profile SQS Request Fail!');
@@ -35,6 +40,7 @@ class Sqs extends HookConsumerWidget {
         ref.read(sqsAttachListProvider.state).state = next.value!;
       }
       if (next is AsyncError) {
+        logger.e(next);
         ref.read(sqsAttachListProvider.state).state = [];
         ShortCutUtils.showSnackBar(context,
             '[Attach] Current Profile SQS Request Fail! ${next.error}');

@@ -1,6 +1,7 @@
 import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/logger.dart';
 import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
 import 'package:localstack_dashboard_client/src/sqs/sqs_provider_mapper.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detail_refresh_button.dart';
@@ -8,6 +9,8 @@ import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_purge_button.dar
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_receive_message_button.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_send_message_button.dart';
 import 'package:localstack_dashboard_client/src/utils/short_cut.dart';
+
+final logger = getLogger();
 
 class SqsDetail extends HookConsumerWidget {
   final ModelSqsQueueInfo queue;
@@ -22,6 +25,7 @@ class SqsDetail extends HookConsumerWidget {
             next.value!;
       }
       if (next is AsyncError) {
+        logger.e(next);
         ShortCutUtils.showSnackBar(context,
             '[Attach] Current Profile SQS Request Fail! ${next.error}');
       }

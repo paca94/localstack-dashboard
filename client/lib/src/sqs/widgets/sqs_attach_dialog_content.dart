@@ -1,14 +1,16 @@
 import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/enums.dart';
+import 'package:localstack_dashboard_client/src/logger.dart';
 import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
 import 'package:localstack_dashboard_client/src/profiles/providers/profile_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_controller_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_list_provider.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
+
+final logger = getLogger();
 
 // purpose: when close widget, clear state
 final disposeProvider = Provider.autoDispose((ref) {
@@ -357,6 +359,7 @@ class _AttachQueueConnectTest extends HookConsumerWidget {
         }
 
         if (next is AsyncError) {
+          logger.e(next);
           ref.read(queueAttachTestStateProvider.state).state =
               FutureActionEnum.fail;
           ref.read(queueAttachErrorProvider.state).state = '${next.error}';

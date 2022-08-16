@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/logger.dart';
 import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_service_provider.dart';
 import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
+import 'package:shared_aws_api/shared.dart';
+
+final logger = getLogger();
 
 class SqsDeleteButton extends HookConsumerWidget {
   final ModelSqsQueueInfo queue;
@@ -13,7 +17,14 @@ class SqsDeleteButton extends HookConsumerWidget {
 
   Future<void> _deleteQueue(WidgetRef ref) async {
     final sqsService = ref.watch(sqsServiceProvider);
-    await sqsService.deleteQueue(queueUrl: queue.queueUrl);
+    try {
+      await sqsService.deleteQueue(queueUrl: queue.queueUrl);
+    } catch (e) {
+      if (e is GenericAwsException &&
+          e.code == 'AWS.SimpleQueueService.NonExistentQueue') {
+        logger.e("Queue ${queue.queueUrl} does not exist");
+      }
+    }
     ref.refresh(sqsListRefreshProvider);
   }
 
