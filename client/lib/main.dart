@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/database/db_provider.dart';
 import 'package:localstack_dashboard_client/src/profiles/widgets/profile_button.dart';
+import 'package:localstack_dashboard_client/src/screens/dynamodb.dart';
 
 import 'color_schemes.g.dart';
 import 'src/screens/home.dart';
@@ -45,6 +46,12 @@ final destinationProvider = Provider((_) => [
         selectedIcon: const Icon(Icons.book),
         label: const Text('SQS'),
         screen: const Sqs(),
+      ),
+      DestinationInfo(
+        icon: const Icon(Icons.table_chart),
+        selectedIcon: const Icon(Icons.table_chart_outlined),
+        label: const Text('DynamoDB'),
+        screen: const DynamoDBScreen(),
       ),
     ]);
 final navigationProvider = StateProvider((_) => 0);

@@ -41,10 +41,16 @@ dependencies:
       url: git@github.com:paca94/aws_client.git
       path: generated/aws_sqs_api
       ref: master # branch name
+  aws_dynamodb_api: # ^1.2.0
+    git:
+      url: git@github.com:paca94/aws_client.git
+      path: generated/aws_dynamodb_api
+      ref: master # branch name
   expandable: ^5.0.1
   hive_flutter: ^1.1.0
   flutter_secure_storage: ^5.1.0
   logger: ^1.1.0
+  multi_split_view: ^2.1.0
 
 dev_dependencies:
   flutter_test:
