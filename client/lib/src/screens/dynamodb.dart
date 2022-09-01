@@ -18,7 +18,7 @@ class DynamoDBScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     MultiSplitViewController controller =
-        MultiSplitViewController(areas: [Area(weight: 0.1)]);
+        MultiSplitViewController(areas: [Area(weight: 0.2)]);
     final dynamoDBSelect = ref.watch(dynamoDBSelectProvider);
     return Center(
       child: Padding(
@@ -27,7 +27,7 @@ class DynamoDBScreen extends HookConsumerWidget {
           controller: controller,
           children: [
             const DynamoDBList(),
-            if (dynamoDBSelect != null) const DynamoDBTable(),
+            dynamoDBSelect != null ? const DynamoDBTable() : Container(),
           ],
         ),
       ),
