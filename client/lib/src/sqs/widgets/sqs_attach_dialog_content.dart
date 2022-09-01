@@ -10,70 +10,82 @@ import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_control
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_list_provider.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 
+/// use providers
+/// profileControllerProvider
+///   When adding sqs, the purpose of adding a
+///   temporary profile or using an existing profile.
+///
+/// sqsAttachControllerProvider
+///   Added sqs management use.
+///
+/// sqsAttachListRefreshProvider
+///   When sqs is added, the purpose of refreshing the list.
+///
+
 final logger = getLogger();
 
 // purpose: when close widget, clear state
-final disposeProvider = Provider.autoDispose((ref) {
+final _disposeProvider = Provider.autoDispose((ref) {
   ref.onDispose(() {
-    ref.read(queueUrlInputProvider.state).state = "";
-    ref.read(checkboxForUseExistProfileProvider.state).state = true;
-    ref.read(selectedProfileProvider.state).state = null;
-    ref.read(singleUseProfileProvider.state).state = null;
-    ref.read(queueAttachTestStateProvider.state).state = null;
-    ref.read(queueAttachErrorProvider.state).state = null;
+    ref.read(_queueUrlInputProvider.state).state = "";
+    ref.read(_checkboxForUseExistProfileProvider.state).state = true;
+    ref.read(_selectedProfileProvider.state).state = null;
+    ref.read(_singleUseProfileProvider.state).state = null;
+    ref.read(_queueAttachTestStateProvider.state).state = null;
+    ref.read(_queueAttachErrorProvider.state).state = null;
 
     /// single use profile
-    ref.read(awsOrEtcProvider.state).state = "AWS";
-    ref.read(notExistProfileEndpointUrlProvider.state).state = null;
-    ref.read(notExistProfileAccessKeyProvider.state).state = null;
-    ref.read(notExistProfileSecretAccessKeyProvider.state).state = null;
-    ref.read(notExistProfileForAWSRegionProvider.state).state = "us-east-1";
-    ref.read(notExistProfileForEtcRegionProvider.state).state = null;
+    ref.read(_awsOrEtcProvider.state).state = "AWS";
+    ref.read(_notExistProfileEndpointUrlProvider.state).state = null;
+    ref.read(_notExistProfileAccessKeyProvider.state).state = null;
+    ref.read(_notExistProfileSecretAccessKeyProvider.state).state = null;
+    ref.read(_notExistProfileForAWSRegionProvider.state).state = "us-east-1";
+    ref.read(_notExistProfileForEtcRegionProvider.state).state = null;
   });
   return null;
 });
 
-final queueUrlInputProvider = StateProvider((ref) => "");
-final checkboxForUseExistProfileProvider = StateProvider<bool>((ref) => true);
-final selectedProfileProvider = StateProvider<ModelProfile?>((ref) => null);
-final singleUseProfileProvider = StateProvider<ModelProfile?>((ref) => null);
+final _queueUrlInputProvider = StateProvider((ref) => "");
+final _checkboxForUseExistProfileProvider = StateProvider<bool>((ref) => true);
+final _selectedProfileProvider = StateProvider<ModelProfile?>((ref) => null);
+final _singleUseProfileProvider = StateProvider<ModelProfile?>((ref) => null);
 
-final queueAttachTestStateProvider =
+final _queueAttachTestStateProvider =
     StateProvider<FutureActionEnum?>((ref) => null);
-final queueAttachErrorProvider = StateProvider<String?>((ref) => null);
+final _queueAttachErrorProvider = StateProvider<String?>((ref) => null);
 
 /// _SingleUseProfileSelect
-final awsOrEtcProvider = StateProvider<String>((ref) => "AWS");
-final notExistProfileEndpointUrlProvider =
+final _awsOrEtcProvider = StateProvider<String>((ref) => "AWS");
+final _notExistProfileEndpointUrlProvider =
     StateProvider<String?>((ref) => null);
-final notExistProfileAccessKeyProvider = StateProvider<String?>((ref) => null);
-final notExistProfileSecretAccessKeyProvider =
+final _notExistProfileAccessKeyProvider = StateProvider<String?>((ref) => null);
+final _notExistProfileSecretAccessKeyProvider =
     StateProvider<String?>((ref) => null);
-final notExistProfileForEtcRegionProvider =
+final _notExistProfileForEtcRegionProvider =
     StateProvider<String?>((ref) => null);
-final notExistProfileForAWSRegionProvider =
+final _notExistProfileForAWSRegionProvider =
     StateProvider<String?>((ref) => "us-east-1");
 
 /// _AttachQueueConnectTest
-final queueAttachTestFutureProvider = FutureProvider<bool?>((ref) async {
-  final queueUrl = ref.read(queueUrlInputProvider);
+final _queueAttachTestFutureProvider = FutureProvider<bool?>((ref) async {
+  final queueUrl = ref.read(_queueUrlInputProvider);
   if (queueUrl.isEmpty) return null;
-  final isExistProfileUse = ref.read(checkboxForUseExistProfileProvider);
+  final isExistProfileUse = ref.read(_checkboxForUseExistProfileProvider);
   late final ModelProfile selectProfile;
   if (isExistProfileUse) {
-    selectProfile = ref.read(selectedProfileProvider)!;
+    selectProfile = ref.read(_selectedProfileProvider)!;
   } else {
-    final awsOrEtc = ref.read(awsOrEtcProvider);
+    final awsOrEtc = ref.read(_awsOrEtcProvider);
     selectProfile = ModelProfile.forSingleUse(
-      endpointUrl: ref.read(notExistProfileEndpointUrlProvider),
-      accessKey: ref.read(notExistProfileAccessKeyProvider) ?? "",
-      secretAccessKey: ref.read(notExistProfileSecretAccessKeyProvider) ?? "",
+      endpointUrl: ref.read(_notExistProfileEndpointUrlProvider),
+      accessKey: ref.read(_notExistProfileAccessKeyProvider) ?? "",
+      secretAccessKey: ref.read(_notExistProfileSecretAccessKeyProvider) ?? "",
       region: awsOrEtc == "AWS"
-          ? ref.read(notExistProfileForAWSRegionProvider) ?? ""
-          : ref.read(notExistProfileForEtcRegionProvider) ?? "",
+          ? ref.read(_notExistProfileForAWSRegionProvider) ?? ""
+          : ref.read(_notExistProfileForEtcRegionProvider) ?? "",
     );
     Future.delayed(Duration.zero, () {
-      ref.read(singleUseProfileProvider.state).state = selectProfile;
+      ref.read(_singleUseProfileProvider.state).state = selectProfile;
     });
   }
 
@@ -95,7 +107,7 @@ class SqsAttachDialogContent extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
-    ref.watch(disposeProvider);
+    ref.watch(_disposeProvider);
     return SizedBox(
       width: size.width / 2,
       child: Column(
@@ -121,25 +133,25 @@ class SqsAttachDialogOkButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final connectionTestResult = ref.watch(queueAttachTestStateProvider);
+    final connectionTestResult = ref.watch(_queueAttachTestStateProvider);
     return TextButton(
       onPressed: connectionTestResult == FutureActionEnum.success
           ? () async {
-              final queueUrl = ref.read(queueUrlInputProvider);
+              final queueUrl = ref.read(_queueUrlInputProvider);
 
               final isExistProfileUse =
-                  ref.read(checkboxForUseExistProfileProvider);
+                  ref.read(_checkboxForUseExistProfileProvider);
               final controller = ref.read(sqsAttachControllerProvider);
 
               try {
                 if (isExistProfileUse) {
                   final ModelProfile currentProfile =
-                      ref.read(selectedProfileProvider)!;
+                      ref.read(_selectedProfileProvider)!;
                   await controller.attachQueueForPermanentUserProfile(
                       profile: currentProfile, queueUrl: queueUrl);
                 } else {
                   final ModelProfile currentProfile =
-                      ref.read(singleUseProfileProvider)!;
+                      ref.read(_singleUseProfileProvider)!;
                   await controller.attachQueueForSingleUseProfile(
                       profileType: currentProfile.profileType,
                       accessKey: currentProfile.accessKey,
@@ -150,9 +162,9 @@ class SqsAttachDialogOkButton extends HookConsumerWidget {
                 ref.refresh(sqsAttachListRefreshProvider);
                 Navigator.of(context).pop(true);
               } catch (e, stack) {
-                ref.read(queueAttachTestStateProvider.state).state =
+                ref.read(_queueAttachTestStateProvider.state).state =
                     FutureActionEnum.fail;
-                ref.read(queueAttachErrorProvider.state).state =
+                ref.read(_queueAttachErrorProvider.state).state =
                     'Duplicated QueueUrl!';
               }
             }
@@ -173,7 +185,7 @@ class _QueueUrlInput extends HookConsumerWidget {
               "https://sqs.ap-northeast-2.amazonaws.com/{account_id}/{quque_name}",
           labelText: 'Queue Url'),
       onChanged: (String newUrl) {
-        ref.read(queueUrlInputProvider.state).state = newUrl;
+        ref.read(_queueUrlInputProvider.state).state = newUrl;
       },
     );
   }
@@ -187,9 +199,9 @@ class _UseExistProfile extends HookConsumerWidget {
     return Row(
       children: [
         Checkbox(
-          value: ref.watch(checkboxForUseExistProfileProvider),
+          value: ref.watch(_checkboxForUseExistProfileProvider),
           onChanged: (bool? value) {
-            ref.read(checkboxForUseExistProfileProvider.state).state = value!;
+            ref.read(_checkboxForUseExistProfileProvider.state).state = value!;
           },
         ),
         const Text("Use Exist Profile"),
@@ -204,8 +216,8 @@ class _ExistProfileSelect extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileController = ref.watch(profileControllerProvider);
-    final isUseExistProfile = ref.watch(checkboxForUseExistProfileProvider);
-    final selectedProfile = ref.watch(selectedProfileProvider);
+    final isUseExistProfile = ref.watch(_checkboxForUseExistProfileProvider);
+    final selectedProfile = ref.watch(_selectedProfileProvider);
     if (isUseExistProfile) {
       return DropdownButton<ModelProfile>(
         value: selectedProfile,
@@ -221,7 +233,7 @@ class _ExistProfileSelect extends HookConsumerWidget {
           )
         ],
         onChanged: (ModelProfile? newValue) {
-          ref.read(selectedProfileProvider.state).state = newValue!;
+          ref.read(_selectedProfileProvider.state).state = newValue!;
         },
       );
     }
@@ -234,8 +246,8 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isUseExistProfile = ref.watch(checkboxForUseExistProfileProvider);
-    final awsOrEtc = ref.watch(awsOrEtcProvider);
+    final isUseExistProfile = ref.watch(_checkboxForUseExistProfileProvider);
+    final awsOrEtc = ref.watch(_awsOrEtcProvider);
     if (!isUseExistProfile) {
       return Card(
         child: Padding(
@@ -248,7 +260,7 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
                     value: "AWS",
                     groupValue: awsOrEtc,
                     onChanged: (v) {
-                      ref.read(awsOrEtcProvider.state).state = v!;
+                      ref.read(_awsOrEtcProvider.state).state = v!;
                     },
                   ),
                   const Text("AWS"),
@@ -256,7 +268,7 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
                     value: "ETC",
                     groupValue: awsOrEtc,
                     onChanged: (v) {
-                      ref.read(awsOrEtcProvider.state).state = v!;
+                      ref.read(_awsOrEtcProvider.state).state = v!;
                     },
                   ),
                   const Text("ETC"),
@@ -267,7 +279,7 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
                 TextField(
                   decoration: const InputDecoration(labelText: 'Endpoint Url'),
                   onChanged: (String newUrl) {
-                    ref.read(notExistProfileEndpointUrlProvider.state).state =
+                    ref.read(_notExistProfileEndpointUrlProvider.state).state =
                         newUrl;
                   },
                 ),
@@ -275,7 +287,7 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
               TextField(
                 decoration: const InputDecoration(labelText: 'AccessKey'),
                 onChanged: (String newValue) {
-                  ref.read(notExistProfileAccessKeyProvider.state).state =
+                  ref.read(_notExistProfileAccessKeyProvider.state).state =
                       newValue;
                 },
               ),
@@ -283,8 +295,9 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
               TextField(
                 decoration: const InputDecoration(labelText: 'SecretAccessKey'),
                 onChanged: (String newValue) {
-                  ref.read(notExistProfileSecretAccessKeyProvider.state).state =
-                      newValue;
+                  ref
+                      .read(_notExistProfileSecretAccessKeyProvider.state)
+                      .state = newValue;
                 },
               ),
               // region
@@ -293,11 +306,12 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
                       decoration: const InputDecoration(labelText: 'Region'),
                       onChanged: (String newValue) {
                         ref
-                            .read(notExistProfileForEtcRegionProvider.state)
+                            .read(_notExistProfileForEtcRegionProvider.state)
                             .state = newValue;
                       },
                       controller: TextEditingController(
-                          text: ref.watch(notExistProfileForEtcRegionProvider)),
+                          text:
+                              ref.watch(_notExistProfileForEtcRegionProvider)),
                     )
                   : Row(
                       children: [
@@ -306,7 +320,8 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
                           child: Text("Region"),
                         ),
                         DropdownButton<String>(
-                          value: ref.watch(notExistProfileForAWSRegionProvider),
+                          value:
+                              ref.watch(_notExistProfileForAWSRegionProvider),
                           items: [
                             "us-east-1",
                             "ap-northeast-2",
@@ -320,7 +335,8 @@ class _SingleUseProfileSelect extends HookConsumerWidget {
                               .toList(),
                           onChanged: (value) {
                             ref
-                                .read(notExistProfileForAWSRegionProvider.state)
+                                .read(
+                                    _notExistProfileForAWSRegionProvider.state)
                                 .state = value;
                           },
                         ),
@@ -340,29 +356,29 @@ class _AttachQueueConnectTest extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final queueAttachTest = ref.watch(queueAttachTestStateProvider);
+    final queueAttachTest = ref.watch(_queueAttachTestStateProvider);
     ref.listen(
-      queueAttachTestFutureProvider,
+      _queueAttachTestFutureProvider,
       (previous, next) {
         if (next is AsyncLoading) {
-          ref.read(queueAttachTestStateProvider.state).state =
+          ref.read(_queueAttachTestStateProvider.state).state =
               FutureActionEnum.loading;
           return;
         }
         if (next is AsyncData) {
           if (next.value == null) {
-            ref.read(queueAttachTestStateProvider.state).state = null;
+            ref.read(_queueAttachTestStateProvider.state).state = null;
           } else {
-            ref.read(queueAttachTestStateProvider.state).state =
+            ref.read(_queueAttachTestStateProvider.state).state =
                 FutureActionEnum.success;
           }
         }
 
         if (next is AsyncError) {
           logger.e(next);
-          ref.read(queueAttachTestStateProvider.state).state =
+          ref.read(_queueAttachTestStateProvider.state).state =
               FutureActionEnum.fail;
-          ref.read(queueAttachErrorProvider.state).state = '${next.error}';
+          ref.read(_queueAttachErrorProvider.state).state = '${next.error}';
         }
       },
     );
@@ -381,7 +397,7 @@ class _AttachQueueConnectTest extends HookConsumerWidget {
             ),
             onTap: () {
               if (queueAttachTest == FutureActionEnum.loading) return;
-              ref.refresh(queueAttachTestFutureProvider);
+              ref.refresh(_queueAttachTestFutureProvider);
             },
           ),
         ],
@@ -414,8 +430,8 @@ class _AttachQueueConnectFailReason extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final testState = ref.watch(queueAttachTestStateProvider);
-    final queueAttachError = ref.read(queueAttachErrorProvider);
+    final testState = ref.watch(_queueAttachTestStateProvider);
+    final queueAttachError = ref.read(_queueAttachErrorProvider);
     return RemoveFoldWidget(
       expand: testState == FutureActionEnum.fail,
       child: Card(

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/sqs/dialogs/sqs_attach_dialog.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 
-class SqsAttachButton extends HookConsumerWidget {
+class SqsAttachButton extends StatelessWidget {
   const SqsAttachButton({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context) {
     return CardButton(
       child: const Text("Attach Queue"),
       onTap: () async {

@@ -8,6 +8,8 @@ import 'package:localstack_dashboard_client/src/sqs/providers/sqs_detail_provide
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_service_provider.dart';
 
+/// The implementation of the sqs accessible by the profile and
+/// the added sqs are slightly different, so I wrote a mapper and used it.
 abstract class SQSProviderMapper {
   static FutureProvider detailFutureProvider(ModelSqsQueueInfo queue) {
     if (queue.isAttach) {

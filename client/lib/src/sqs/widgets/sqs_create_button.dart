@@ -7,6 +7,12 @@ import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_service_provider.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 
+/// use providers
+///
+/// sqsServiceProvider
+///   Purpose to import service to use sqs api
+///
+/// sqsListRefreshProvider
 class SqsCreateButton extends HookConsumerWidget {
   const SqsCreateButton({Key? key}) : super(key: key);
 
