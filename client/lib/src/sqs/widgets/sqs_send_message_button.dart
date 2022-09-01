@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/sqs/dialogs/sqs_send_message_dialog.dart';
 import 'package:localstack_dashboard_client/src/sqs/models/sqs_message_create.dart';
 import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
 import 'package:localstack_dashboard_client/src/sqs/sqs_provider_mapper.dart';
-import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
 
 class SqsSendMessageButton extends HookConsumerWidget {
   final ModelSqsQueueInfo queue;

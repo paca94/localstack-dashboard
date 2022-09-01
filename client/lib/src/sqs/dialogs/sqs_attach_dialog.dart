@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_attach_dialog_content.dart';
 
-Future<bool> showOkOrFalseDialog(context, String text) async {
+Future<bool> showSqsAttachDialog(context) async {
   bool? result = await showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        content: Text(text),
+        content: const SqsAttachDialogContent(),
         actions: [
           TextButton(
             child: const Text('Cancel'),
@@ -13,12 +14,7 @@ Future<bool> showOkOrFalseDialog(context, String text) async {
               Navigator.of(context).pop(false);
             },
           ),
-          TextButton(
-            child: const Text('Ok'),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-          ),
+          const SqsAttachDialogOkButton(),
         ],
       );
     },
