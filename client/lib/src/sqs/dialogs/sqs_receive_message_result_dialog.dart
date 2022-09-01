@@ -16,23 +16,32 @@ Future<SQSReceiveMessageActionEnum?> showSQSReceiveMessageResultDialog(context,
       return AlertDialog(
         content: buildChild(value),
         actions: [
-          TextButton(
-            child: const Text('RollBack'),
-            onPressed: () {
-              Navigator.of(context).pop(SQSReceiveMessageActionEnum.rollback);
-            },
+          Tooltip(
+            message: "Change visibility timeout to 0",
+            child: TextButton(
+              child: const Text("RollBack"),
+              onPressed: () {
+                Navigator.of(context).pop(SQSReceiveMessageActionEnum.rollback);
+              },
+            ),
           ),
-          TextButton(
-            child: const Text('Ignore'),
-            onPressed: () {
-              Navigator.of(context).pop(SQSReceiveMessageActionEnum.ignore);
-            },
+          Tooltip(
+            message: "Do not change visibility timeout",
+            child: TextButton(
+              child: const Text('Ignore'),
+              onPressed: () {
+                Navigator.of(context).pop(SQSReceiveMessageActionEnum.ignore);
+              },
+            ),
           ),
-          TextButton(
-            child: const Text('Delete'),
-            onPressed: () {
-              Navigator.of(context).pop(SQSReceiveMessageActionEnum.delete);
-            },
+          Tooltip(
+            message: "Delete message",
+            child: TextButton(
+              child: const Text('Delete'),
+              onPressed: () {
+                Navigator.of(context).pop(SQSReceiveMessageActionEnum.delete);
+              },
+            ),
           ),
         ],
       );

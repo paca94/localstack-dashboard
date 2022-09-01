@@ -4,12 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/logger.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_list_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_select_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_attach_button.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_create_button.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detail.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_queue_list.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_refresh_button.dart';
+import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_select_info.dart';
 import 'package:localstack_dashboard_client/src/utils/short_cut.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 
@@ -53,7 +52,7 @@ class Sqs extends HookConsumerWidget {
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: const [
                 SqsCreateButton(),
                 SqsAttachButton(),
@@ -81,22 +80,5 @@ class Sqs extends HookConsumerWidget {
         ),
       ),
     );
-  }
-}
-
-// create
-// list
-// delete
-
-class SqsSelectInfo extends HookConsumerWidget {
-  const SqsSelectInfo({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final queue = ref.watch(sqsSelectProvider);
-    if (queue == null) return Container();
-    return SqsDetail(queue: queue);
   }
 }
