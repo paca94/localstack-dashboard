@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
+import 'package:localstack_dashboard_client/src/sqs/providers/sqs_select_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/sqs_provider_mapper.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_queue_info.dart';
+import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 
 class SqsQueueList extends HookConsumerWidget {
   final bool isAttach;
@@ -31,8 +33,13 @@ class SqsQueueList extends HookConsumerWidget {
                 controller: ScrollController(),
                 itemCount: sqsList.length,
                 itemBuilder: (context, index) {
-                  final queue = sqsList[index];
-                  return SqsQueueInfo(queue: queue);
+                  final ModelSqsQueueInfo queue = sqsList[index];
+                  return CardButton(
+                    child: Text(queue.queueUrl),
+                    onTap: () {
+                      ref.read(sqsSelectProvider.state).state = queue;
+                    },
+                  );
                 },
               ),
       ),

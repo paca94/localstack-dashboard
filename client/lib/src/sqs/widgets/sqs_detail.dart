@@ -32,7 +32,7 @@ class SqsDetail extends HookConsumerWidget {
     });
     final info = ref.watch(SQSProviderMapper.detailStateProvider(queue));
 
-    return buildDetailInfo(context, ref, info);
+    return Card(child: buildDetailInfo(context, ref, info));
   }
 
   Widget buildDetailInfo(BuildContext context, WidgetRef ref,
@@ -52,6 +52,24 @@ class SqsDetail extends HookConsumerWidget {
           ),
           ...sqsDetail.entries.map(
             (e) {
+              // flutter: queueArn
+              // flutter: approximateNumberOfMessages
+              // flutter: approximateNumberOfMessagesNotVisible
+              // flutter: approximateNumberOfMessagesDelayed
+              // flutter: createdTimestamp
+              // flutter: lastModifiedTimestamp
+              // flutter: visibilityTimeout
+              // flutter: maximumMessageSize
+              // flutter: messageRetentionPeriod
+              // flutter: delaySeconds
+              // flutter: policy
+              // flutter: redriveAllowPolicy
+              // flutter: receiveMessageWaitTimeSeconds
+              // flutter: sqsManagedSseEnabled
+              // flutter: fifoQueue
+              // flutter: deduplicationScope
+              // flutter: fifoThroughputLimit
+              // flutter: contentBasedDeduplication
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

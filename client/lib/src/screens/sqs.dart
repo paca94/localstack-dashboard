@@ -1,20 +1,19 @@
-import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/logger.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_list_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
+import 'package:localstack_dashboard_client/src/sqs/providers/sqs_select_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_attach_button.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_create_button.dart';
+import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detail.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_queue_list.dart';
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_refresh_button.dart';
 import 'package:localstack_dashboard_client/src/utils/short_cut.dart';
+import 'package:multi_split_view/multi_split_view.dart';
 
 final logger = getLogger();
-
-final expandableProvider =
-    StateProvider((ref) => <String, ExpandableController>{});
 
 class Sqs extends HookConsumerWidget {
   const Sqs({
@@ -23,8 +22,9 @@ class Sqs extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    MultiSplitViewController controller =
+        MultiSplitViewController(areas: [Area(weight: 0.3)]);
     ref.listen(sqsListRefreshProvider, (previous, next) {
-      logger.i(next);
       if (next is AsyncData) {
         ref.read(sqsListProvider.state).state = next.value!;
       }
@@ -60,10 +60,21 @@ class Sqs extends HookConsumerWidget {
                 SqsRefreshButton(),
               ],
             ),
-            const Flexible(child: SqsQueueList()),
-            const Flexible(
-              child: SqsQueueList(
-                isAttach: true,
+            Expanded(
+              child: MultiSplitView(
+                controller: controller,
+                children: [
+                  MultiSplitView(
+                    axis: Axis.vertical,
+                    children: const [
+                      SqsQueueList(),
+                      SqsQueueList(
+                        isAttach: true,
+                      ),
+                    ],
+                  ),
+                  const SqsSelectInfo(),
+                ],
               ),
             ),
           ],
@@ -76,3 +87,16 @@ class Sqs extends HookConsumerWidget {
 // create
 // list
 // delete
+
+class SqsSelectInfo extends HookConsumerWidget {
+  const SqsSelectInfo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final queue = ref.watch(sqsSelectProvider);
+    if (queue == null) return Container();
+    return SqsDetail(queue: queue);
+  }
+}

@@ -18,16 +18,23 @@ class SqsSendMessageButton extends HookConsumerWidget {
     return Card(
       child: InkWell(
         onTap: () async {
+          // fifo messageGroupId
           final sqsService =
               ref.watch(SQSProviderMapper.getSqsServiceProvider(queue));
-          final ModelSqsMessageCreate? message =
-              await showSQSSendMessageDialog(context);
+          final ModelSqsMessageCreate? message = await showSQSSendMessageDialog(
+            context,
+            isFifo: queue.queueUrl.endsWith(".fifo"),
+          );
           if (message == null) return;
           final content = message.isEncodeToBase64
               ? base64.encode(utf8.encode(message.messageContent))
               : message.messageContent;
           await sqsService.sendMessage(
-              messageBody: content, queueUrl: queue.queueUrl);
+              messageBody: content,
+              queueUrl: queue.queueUrl,
+              messageGroupId: message.messageGroupId,
+              messageDeduplicationId:
+                  message.messageGroupId != null ? "asdf" : null);
 
           ref.refresh(SQSProviderMapper.detailFutureProvider(queue));
         },
