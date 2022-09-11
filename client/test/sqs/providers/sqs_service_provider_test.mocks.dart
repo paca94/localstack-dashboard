@@ -49,32 +49,38 @@ class MockUserProfileController extends _i1.Mock
       Invocation.getter(#profileBox),
       returnValue: _FakeBox_0<_i3.ModelProfile>(
           this, Invocation.getter(#profileBox))) as _i2.Box<_i3.ModelProfile>);
+
   @override
   List<_i3.ModelProfile> get profiles =>
       (super.noSuchMethod(Invocation.getter(#profiles),
           returnValue: <_i3.ModelProfile>[]) as List<_i3.ModelProfile>);
+
   @override
   _i3.ModelProfile get currentProfile =>
       (super.noSuchMethod(Invocation.getter(#currentProfile),
               returnValue:
                   _FakeModelProfile_1(this, Invocation.getter(#currentProfile)))
           as _i3.ModelProfile);
+
   @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
+
   @override
-  _i5.Future<void> changeProfile(_i3.ModelProfile? afterProfile) =>
+  _i5.Future<void> selectProfile(_i3.ModelProfile? afterProfile) =>
       (super.noSuchMethod(Invocation.method(#changeProfile, [afterProfile]),
               returnValue: _i5.Future<void>.value(),
               returnValueForMissingStub: _i5.Future<void>.value())
           as _i5.Future<void>);
+
   @override
   _i5.Future<void> updateProfile(_i3.ModelProfile? afterProfile) =>
       (super.noSuchMethod(Invocation.method(#updateProfile, [afterProfile]),
               returnValue: _i5.Future<void>.value(),
               returnValueForMissingStub: _i5.Future<void>.value())
           as _i5.Future<void>);
+
   @override
   _i5.Future<void> addProfile(
           {String? alias,
@@ -97,27 +103,33 @@ class MockUserProfileController extends _i1.Mock
               returnValue: _i5.Future<void>.value(),
               returnValueForMissingStub: _i5.Future<void>.value())
           as _i5.Future<void>);
+
   @override
   _i5.Future<void> removeProfile(_i3.ModelProfile? removeProfile) =>
       (super.noSuchMethod(Invocation.method(#removeProfile, [removeProfile]),
               returnValue: _i5.Future<void>.value(),
               returnValueForMissingStub: _i5.Future<void>.value())
           as _i5.Future<void>);
+
   @override
   _i3.ModelProfile? getProfile(int? profileId) =>
       (super.noSuchMethod(Invocation.method(#getProfile, [profileId]))
           as _i3.ModelProfile?);
+
   @override
   void addListener(_i7.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#addListener, [listener]),
           returnValueForMissingStub: null);
+
   @override
   void removeListener(_i7.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#removeListener, [listener]),
           returnValueForMissingStub: null);
+
   @override
   void dispose() => super.noSuchMethod(Invocation.method(#dispose, []),
       returnValueForMissingStub: null);
+
   @override
   void notifyListeners() =>
       super.noSuchMethod(Invocation.method(#notifyListeners, []),

@@ -7,6 +7,8 @@ extension SupportServiceTypeStringExtension on String {
         return SupportServiceTypes.aws;
       case 'other':
         return SupportServiceTypes.other;
+      case 'empty':
+        return SupportServiceTypes.empty;
       default:
         return SupportServiceTypes.other;
     }

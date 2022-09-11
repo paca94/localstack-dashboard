@@ -264,33 +264,42 @@ class _ProfileDialogContent extends HookConsumerWidget {
               labelText: 'Alias',
             ),
           ),
-          if (supportServicesType == SupportServiceTypes.other)
-            TextField(
-              controller: _endpointUrlController,
-              decoration: const InputDecoration(
-                labelText: 'Endpoint URL',
-              ),
-            ),
-          TextField(
-            controller: _accessKeyController,
-            decoration: const InputDecoration(
-              labelText: 'Access Key',
-            ),
-          ),
-          TextField(
-            controller: _secretAccessKeyController,
-            decoration: const InputDecoration(
-              labelText: 'Secret Access Key',
-            ),
-          ),
-          TextField(
-            controller: _regionController,
-            decoration: const InputDecoration(
-              labelText: 'Region',
-            ),
-          ),
+          ...buildContents(supportServicesType),
         ],
       ),
     );
+  }
+
+  buildContents(SupportServiceTypes supportServicesType) {
+    if (supportServicesType == SupportServiceTypes.empty) {
+      return [];
+    }
+    return [
+      if (supportServicesType == SupportServiceTypes.other)
+        TextField(
+          controller: _endpointUrlController,
+          decoration: const InputDecoration(
+            labelText: 'Endpoint URL',
+          ),
+        ),
+      TextField(
+        controller: _accessKeyController,
+        decoration: const InputDecoration(
+          labelText: 'Access Key',
+        ),
+      ),
+      TextField(
+        controller: _secretAccessKeyController,
+        decoration: const InputDecoration(
+          labelText: 'Secret Access Key',
+        ),
+      ),
+      TextField(
+        controller: _regionController,
+        decoration: const InputDecoration(
+          labelText: 'Region',
+        ),
+      ),
+    ];
   }
 }

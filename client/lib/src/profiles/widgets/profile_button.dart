@@ -14,7 +14,7 @@ class ProfileButton extends HookConsumerWidget {
       tooltip: "Show Profiles",
       onSelected: (Object value) {
         if (value is ModelProfile) {
-          profileController.changeProfile(value);
+          profileController.selectProfile(value);
         }
 
         if (value is String) {

@@ -13,4 +13,10 @@ class ModelSqsQueueInfo {
     this.isAttach = false,
     this.id,
   });
+
+  queueName() {
+    return queueUrl
+        .split("/")
+        .last;
+  }
 }

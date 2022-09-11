@@ -92,4 +92,8 @@ class ModelProfile {
   final String region;
   @HiveField(7)
   bool isSelect;
+
+  bool isEmptyProfile() {
+    return profileType == SupportServiceTypes.empty;
+  }
 }

@@ -31,7 +31,7 @@ class UserProfileController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> changeProfile(ModelProfile afterProfile) async {
+  Future<void> selectProfile(ModelProfile afterProfile) async {
     _currentProfile.isSelect = false;
     afterProfile.isSelect = true;
 
@@ -47,6 +47,7 @@ class UserProfileController with ChangeNotifier {
       _currentProfile.isSelect = false;
       afterProfile.isSelect = true;
     }
+    print("?? ${afterProfile.profileType}");
 
     await profileBox.put(_currentProfile.id, _currentProfile);
     await profileBox.put(afterProfile.id, afterProfile);

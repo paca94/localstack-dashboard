@@ -50,7 +50,7 @@ class SqsDetail extends HookConsumerWidget {
         child: Column(
           children: [
             ExpansionTile(
-              title: const Text("Detail"),
+              title: Text("[${queue.queueName()}] Detail"),
               children: [
                 buildAttributeElement("queueUrl", queue.queueUrl),
                 ...buildAttributeInfo(sqsDetail, isDefaultShowElements: false)
