@@ -55,10 +55,10 @@ class Sqs extends HookConsumerWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                SqsCreateButton(),
-                SqsAttachButton(),
-                SqsRefreshButton(),
+              children: [
+                if (!currentProfile.isEmptyProfile()) const SqsCreateButton(),
+                const SqsAttachButton(),
+                const SqsRefreshButton(),
               ],
             ),
             Expanded(
