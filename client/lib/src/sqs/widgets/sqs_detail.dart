@@ -11,8 +11,6 @@ import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_receive_message_
 import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_send_message_button.dart';
 import 'package:localstack_dashboard_client/src/utils/short_cut.dart';
 
-final logger = getLogger();
-
 final visibleElements = [
   "approximateNumberOfMessages",
   "approximateNumberOfMessagesNotVisible",

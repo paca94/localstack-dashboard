@@ -4,11 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/dymamodb/providers/dynamodb_detail_provider.dart';
 import 'package:localstack_dashboard_client/src/dymamodb/providers/dynamodb_list_provider.dart';
 import 'package:localstack_dashboard_client/src/dymamodb/providers/dynamodb_search_provider.dart';
-import 'package:localstack_dashboard_client/src/logger.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 import 'package:multi_split_view/multi_split_view.dart';
-
-final logger = getLogger();
 
 class DynamoDBScreen extends HookConsumerWidget {
   const DynamoDBScreen({

@@ -22,8 +22,6 @@ import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 ///   When sqs is added, the purpose of refreshing the list.
 ///
 
-final logger = getLogger();
-
 // purpose: when close widget, clear state
 final _disposeProvider = Provider.autoDispose((ref) {
   ref.onDispose(() {

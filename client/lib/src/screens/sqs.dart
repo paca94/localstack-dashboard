@@ -13,8 +13,6 @@ import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_select_info.dart
 import 'package:localstack_dashboard_client/src/utils/short_cut.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 
-final logger = getLogger();
-
 class Sqs extends HookConsumerWidget {
   const Sqs({
     Key? key,

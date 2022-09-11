@@ -8,8 +8,6 @@ import 'package:localstack_dashboard_client/src/utils/dialog_utils.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 import 'package:shared_aws_api/shared.dart';
 
-final logger = getLogger();
-
 class SqsDeleteButton extends HookConsumerWidget {
   final ModelSqsQueueInfo queue;
 
