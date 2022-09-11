@@ -4,7 +4,7 @@ import 'package:cloud_dashboard_client/src/enums.dart';
 import 'package:cloud_dashboard_client/src/profiles/models/profile.dart';
 import 'package:cloud_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //** DATABASE CLASS */
