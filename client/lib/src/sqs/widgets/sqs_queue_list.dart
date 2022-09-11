@@ -3,11 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:localstack_dashboard_client/src/logger.dart';
 import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_list_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/providers/sqs_select_provider.dart';
 import 'package:localstack_dashboard_client/src/sqs/sqs_provider_mapper.dart';
-import 'package:localstack_dashboard_client/src/utils/short_cut.dart';
 import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
 
 final logger = getLogger();
@@ -20,32 +17,6 @@ class SqsQueueList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sqsList = ref.watch(SQSProviderMapper.getSqsListProvider(isAttach));
-    if (!isAttach) {
-      ref.listen(sqsListRefreshProvider, (previous, next) {
-        if (next is AsyncData) {
-          ref.read(sqsListProvider.state).state = next.value!;
-        }
-        if (next is AsyncError) {
-          logger.e(next);
-
-          ref.read(sqsListProvider.state).state = [];
-          ShortCutUtils.showSnackBar(
-              context, 'Current Profile SQS Request Fail!');
-        }
-      });
-    } else {
-      ref.listen(sqsAttachListRefreshProvider, (previous, next) {
-        if (next is AsyncData) {
-          ref.read(sqsAttachListProvider.state).state = next.value!;
-        }
-        if (next is AsyncError) {
-          logger.e(next);
-          ref.read(sqsAttachListProvider.state).state = [];
-          ShortCutUtils.showSnackBar(context,
-              '[Attach] Current Profile SQS Request Fail! ${next.error}');
-        }
-      });
-    }
 
     return Card(
       child: SizedBox(

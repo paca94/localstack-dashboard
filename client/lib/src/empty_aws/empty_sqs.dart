@@ -1,7 +1,7 @@
 import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 
 class EmptySQS extends SQS {
-  EmptySQS({required super.region});
+  EmptySQS() : super(region: "");
 
   @override
   Future<ListQueuesResult> listQueues({

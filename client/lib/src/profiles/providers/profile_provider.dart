@@ -11,6 +11,11 @@ final profileControllerProvider =
   return UserProfileController(db.profileBox);
 });
 
+final currentProfileProvider = Provider<ModelProfile>((ref) {
+  final profileController = ref.watch(profileControllerProvider);
+  return profileController.currentProfile;
+});
+
 class UserProfileController with ChangeNotifier {
   UserProfileController(this.profileBox)
       : _currentProfile =
@@ -47,7 +52,6 @@ class UserProfileController with ChangeNotifier {
       _currentProfile.isSelect = false;
       afterProfile.isSelect = true;
     }
-    print("?? ${afterProfile.profileType}");
 
     await profileBox.put(_currentProfile.id, _currentProfile);
     await profileBox.put(afterProfile.id, afterProfile);

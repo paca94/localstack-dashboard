@@ -7,7 +7,7 @@ final sqsServiceProvider = Provider((ref) {
   final profileController = ref.watch(profileControllerProvider);
   final currentProfile = profileController.currentProfile;
   if (currentProfile.isEmptyProfile()) {
-    return EmptySQS(region: "");
+    return EmptySQS();
   }
   return SQS(
     endpointUrl: currentProfile.endpointUrl,
