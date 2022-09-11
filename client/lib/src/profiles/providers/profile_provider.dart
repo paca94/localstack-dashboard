@@ -1,9 +1,9 @@
+import 'package:cloud_dashboard_client/src/database/db_provider.dart';
+import 'package:cloud_dashboard_client/src/enums.dart';
+import 'package:cloud_dashboard_client/src/profiles/models/profile.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/database/db_provider.dart';
-import 'package:localstack_dashboard_client/src/enums.dart';
-import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
 
 final profileControllerProvider =
     ChangeNotifierProvider<UserProfileController>((ref) {
@@ -88,7 +88,7 @@ class UserProfileController with ChangeNotifier {
     refreshProfiles();
   }
 
-  ModelProfile? getProfile(int profileId) {
+  ModelProfile? getProfile(String profileId) {
     return _profiles.firstWhere((element) => element.id == profileId);
   }
 }

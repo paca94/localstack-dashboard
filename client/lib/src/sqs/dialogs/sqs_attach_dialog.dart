@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_attach_dialog_content.dart';
+import 'package:cloud_dashboard_client/src/sqs/widgets/sqs_attach_dialog_content.dart';
 
 Future<bool> showSqsAttachDialog(context) async {
   bool? result = await showDialog(

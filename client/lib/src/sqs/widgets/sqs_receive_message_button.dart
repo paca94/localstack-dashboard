@@ -4,11 +4,11 @@ import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/enums.dart';
-import 'package:localstack_dashboard_client/src/sqs/dialogs/sqs_receive_message_result_dialog.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
-import 'package:localstack_dashboard_client/src/sqs/sqs_provider_mapper.dart';
-import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
+import 'package:cloud_dashboard_client/src/enums.dart';
+import 'package:cloud_dashboard_client/src/sqs/dialogs/sqs_receive_message_result_dialog.dart';
+import 'package:cloud_dashboard_client/src/sqs/models/sqs_queue_info.dart';
+import 'package:cloud_dashboard_client/src/sqs/sqs_provider_mapper.dart';
+import 'package:cloud_dashboard_client/src/widgets/card_button.dart';
 
 class SqsReceiveMessageButton extends HookConsumerWidget {
   final ModelSqsQueueInfo queue;
@@ -22,14 +22,14 @@ class SqsReceiveMessageButton extends HookConsumerWidget {
     return CardButton(
       onTap: () async {
         final sqsService =
-            ref.watch(SQSProviderMapper.getSqsServiceProvider(queue));
+        ref.watch(SQSProviderMapper.getSqsServiceProvider(queue));
         final Future<ReceiveMessageResult> receivedMessage =
-            sqsService.receiveMessage(queueUrl: queue.queueUrl);
+        sqsService.receiveMessage(queueUrl: queue.queueUrl);
         ref.refresh(SQSProviderMapper.detailFutureProvider(queue));
 
         final SQSReceiveMessageActionEnum receiveMessageAction =
             await showSQSReceiveMessageResultDialog(context, receivedMessage,
-                    buildReceiveMessageDialogContent) ??
+                buildReceiveMessageDialogContent) ??
                 SQSReceiveMessageActionEnum.rollback;
 
         if (receiveMessageAction == SQSReceiveMessageActionEnum.rollback) {
@@ -82,9 +82,9 @@ class SqsReceiveMessageButton extends HookConsumerWidget {
           ),
           Card(
               child: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Text(message.messageId!),
-          )),
+                padding: const EdgeInsets.all(6.0),
+                child: Text(message.messageId!),
+              )),
           Container(
             padding: const EdgeInsets.all(4),
             height: 1,

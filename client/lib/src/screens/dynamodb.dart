@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/dymamodb/providers/dynamodb_detail_provider.dart';
-import 'package:localstack_dashboard_client/src/dymamodb/providers/dynamodb_list_provider.dart';
-import 'package:localstack_dashboard_client/src/dymamodb/providers/dynamodb_search_provider.dart';
-import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
+import 'package:cloud_dashboard_client/src/dymamodb/providers/dynamodb_detail_provider.dart';
+import 'package:cloud_dashboard_client/src/dymamodb/providers/dynamodb_list_provider.dart';
+import 'package:cloud_dashboard_client/src/dymamodb/providers/dynamodb_search_provider.dart';
+import 'package:cloud_dashboard_client/src/widgets/card_button.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 
 class DynamoDBScreen extends HookConsumerWidget {
@@ -15,7 +15,7 @@ class DynamoDBScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     MultiSplitViewController controller =
-        MultiSplitViewController(areas: [Area(weight: 0.2)]);
+    MultiSplitViewController(areas: [Area(weight: 0.2)]);
     final dynamoDBSelect = ref.watch(dynamoDBSelectProvider);
     return Center(
       child: Padding(
@@ -40,7 +40,8 @@ class DynamoDBList extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(dynamoDBListRefreshProvider).when(
-        data: (items) => ListView.builder(
+        data: (items) =>
+            ListView.builder(
               itemCount: items.length,
               itemBuilder: (context, index) {
                 return DynamoDBListItem(
@@ -63,7 +64,9 @@ class DynamoDBListItem extends HookConsumerWidget {
     return Card(
       child: InkWell(
         onTap: () {
-          ref.read(dynamoDBSelectProvider.state).state = tableName;
+          ref
+              .read(dynamoDBSelectProvider.state)
+              .state = tableName;
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -102,7 +105,8 @@ class DynamoDBTableDescribe extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(dynamoDBDetailProvider).when(
-          data: (data) => Column(
+      data: (data) =>
+          Column(
             children: [
               Text("table tableName"),
               Text(data.table!.tableName ?? ""),
@@ -120,9 +124,9 @@ class DynamoDBTableDescribe extends HookConsumerWidget {
               Text(data.table!.provisionedThroughput!.toString()),
             ],
           ),
-          error: (Object error, StackTrace? stackTrace) => Container(),
-          loading: () => const CupertinoActivityIndicator(),
-        );
+      error: (Object error, StackTrace? stackTrace) => Container(),
+      loading: () => const CupertinoActivityIndicator(),
+    );
   }
 }
 // this.creationDateTime,

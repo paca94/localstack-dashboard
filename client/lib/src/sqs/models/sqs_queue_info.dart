@@ -6,7 +6,7 @@ class ModelSqsQueueInfo {
   final bool isAttach;
 
   // db id
-  final int? id;
+  final String? id;
 
   ModelSqsQueueInfo({
     required this.queueUrl,
@@ -15,8 +15,6 @@ class ModelSqsQueueInfo {
   });
 
   queueName() {
-    return queueUrl
-        .split("/")
-        .last;
+    return queueUrl.split("/").last;
   }
 }

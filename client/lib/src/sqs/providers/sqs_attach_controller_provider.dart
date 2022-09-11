@@ -1,11 +1,11 @@
+import 'package:cloud_dashboard_client/src/database/db_provider.dart';
+import 'package:cloud_dashboard_client/src/enums.dart';
+import 'package:cloud_dashboard_client/src/profiles/models/profile.dart';
+import 'package:cloud_dashboard_client/src/profiles/providers/profile_provider.dart';
+import 'package:cloud_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/database/db_provider.dart';
-import 'package:localstack_dashboard_client/src/enums.dart';
-import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
-import 'package:localstack_dashboard_client/src/profiles/providers/profile_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
 
 final sqsAttachControllerProvider = ChangeNotifierProvider((ref) {
   final db = ref.watch(databaseService);
@@ -109,7 +109,7 @@ class SqsAttachQueueService extends ChangeNotifier {
   }
 
   // Attached queues cannot be deleted, only detached
-  Future<void> detachQueue(int queueId) async {
+  Future<void> detachQueue(String queueId) async {
     final delQueue = _attachQueueBox.get(queueId)!;
     if (delQueue.isSingleUseProfile) {
       // remove single profile
@@ -127,7 +127,7 @@ class SqsAttachQueueService extends ChangeNotifier {
     notifyListeners();
   }
 
-  ModelSqsAttachQueue getQueue(int queueId) {
+  ModelSqsAttachQueue getQueue(String queueId) {
     final queue = _attachQueueBox.get(queueId)!;
     _setQueueProfile(queue);
     return queue;

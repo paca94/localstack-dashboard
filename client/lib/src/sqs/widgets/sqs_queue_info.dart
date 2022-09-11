@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_delete_button.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detach_button.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detail.dart';
+import 'package:cloud_dashboard_client/src/sqs/models/sqs_queue_info.dart';
+import 'package:cloud_dashboard_client/src/sqs/widgets/sqs_delete_button.dart';
+import 'package:cloud_dashboard_client/src/sqs/widgets/sqs_detach_button.dart';
+import 'package:cloud_dashboard_client/src/sqs/widgets/sqs_detail.dart';
 
 class SqsQueueInfo extends HookConsumerWidget {
   final ModelSqsQueueInfo queue;

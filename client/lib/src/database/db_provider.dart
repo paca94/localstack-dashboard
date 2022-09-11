@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:cloud_dashboard_client/src/enums.dart';
+import 'package:cloud_dashboard_client/src/profiles/models/profile.dart';
+import 'package:cloud_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/enums.dart';
-import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
 
 //** DATABASE CLASS */
 final databaseService = Provider<DatabaseService>((_) => DatabaseService());

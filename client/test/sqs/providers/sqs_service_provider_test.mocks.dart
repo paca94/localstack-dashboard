@@ -6,12 +6,11 @@
 import 'dart:async' as _i5;
 import 'dart:ui' as _i7;
 
-import 'package:hive_flutter/hive_flutter.dart' as _i2;
-import 'package:localstack_dashboard_client/src/enums.dart' as _i6;
-import 'package:localstack_dashboard_client/src/profiles/models/profile.dart'
-    as _i3;
-import 'package:localstack_dashboard_client/src/profiles/providers/profile_provider.dart'
+import 'package:cloud_dashboard_client/src/enums.dart' as _i6;
+import 'package:cloud_dashboard_client/src/profiles/models/profile.dart' as _i3;
+import 'package:cloud_dashboard_client/src/profiles/providers/profile_provider.dart'
     as _i4;
+import 'package:hive_flutter/hive_flutter.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -112,7 +111,7 @@ class MockUserProfileController extends _i1.Mock
           as _i5.Future<void>);
 
   @override
-  _i3.ModelProfile? getProfile(int? profileId) =>
+  _i3.ModelProfile? getProfile(String? profileId) =>
       (super.noSuchMethod(Invocation.method(#getProfile, [profileId]))
           as _i3.ModelProfile?);
 

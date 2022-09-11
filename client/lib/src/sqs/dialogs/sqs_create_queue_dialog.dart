@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_create.dart';
+import 'package:cloud_dashboard_client/src/sqs/models/sqs_queue_create.dart';
 
 Future<ModelSqsQueueCreate?> showSQSCreateQueueDialog(context) async {
   return await showDialog(

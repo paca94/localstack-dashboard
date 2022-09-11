@@ -1,11 +1,11 @@
 import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/sqs/dialogs/sqs_create_queue_dialog.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_create.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_service_provider.dart';
-import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
+import 'package:cloud_dashboard_client/src/sqs/dialogs/sqs_create_queue_dialog.dart';
+import 'package:cloud_dashboard_client/src/sqs/models/sqs_queue_create.dart';
+import 'package:cloud_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
+import 'package:cloud_dashboard_client/src/sqs/providers/sqs_service_provider.dart';
+import 'package:cloud_dashboard_client/src/widgets/card_button.dart';
 
 /// use providers
 ///

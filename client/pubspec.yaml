@@ -1,5 +1,5 @@
-name: localstack_dashboard_client
-description: local stack dashboard implemented with flutter + riverpod
+name: cloud_dashboard_client
+description: cloud dashboard implemented with flutter + riverpod
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

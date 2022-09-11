@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/database/db_provider.dart';
-import 'package:localstack_dashboard_client/src/profiles/widgets/profile_button.dart';
-import 'package:localstack_dashboard_client/src/screens/dynamodb.dart';
+import 'package:cloud_dashboard_client/src/database/db_provider.dart';
+import 'package:cloud_dashboard_client/src/profiles/widgets/profile_button.dart';
+import 'package:cloud_dashboard_client/src/screens/dynamodb.dart';
 
 import 'color_schemes.g.dart';
 import 'src/screens/home.dart';
@@ -27,33 +27,33 @@ class DestinationInfo {
   final Widget label;
   final Widget screen;
 
-  DestinationInfo(
-      {required this.icon,
-      required this.selectedIcon,
-      required this.label,
-      required this.screen});
+  DestinationInfo({required this.icon,
+    required this.selectedIcon,
+    required this.label,
+    required this.screen});
 }
 
-final destinationProvider = Provider((_) => [
-      DestinationInfo(
-        icon: const Icon(Icons.home_outlined),
-        selectedIcon: const Icon(Icons.home),
-        label: const Text('Home'),
-        screen: const Home(),
-      ),
-      DestinationInfo(
-        icon: const Icon(Icons.bookmark_border),
-        selectedIcon: const Icon(Icons.book),
-        label: const Text('SQS'),
-        screen: const Sqs(),
-      ),
-      DestinationInfo(
-        icon: const Icon(Icons.table_chart),
-        selectedIcon: const Icon(Icons.table_chart_outlined),
-        label: const Text('DynamoDB'),
-        screen: const DynamoDBScreen(),
-      ),
-    ]);
+final destinationProvider = Provider((_) =>
+[
+  DestinationInfo(
+    icon: const Icon(Icons.home_outlined),
+    selectedIcon: const Icon(Icons.home),
+    label: const Text('Home'),
+    screen: const Home(),
+  ),
+  DestinationInfo(
+    icon: const Icon(Icons.bookmark_border),
+    selectedIcon: const Icon(Icons.book),
+    label: const Text('SQS'),
+    screen: const Sqs(),
+  ),
+  DestinationInfo(
+    icon: const Icon(Icons.table_chart),
+    selectedIcon: const Icon(Icons.table_chart_outlined),
+    label: const Text('DynamoDB'),
+    screen: const DynamoDBScreen(),
+  ),
+]);
 final navigationProvider = StateProvider((_) => 0);
 
 class MyApp extends HookConsumerWidget {
@@ -75,8 +75,8 @@ class MyApp extends HookConsumerWidget {
     );
   }
 
-  Row buildAfterLoading(
-      WidgetRef ref, int selectedIndex, List<DestinationInfo> destinations) {
+  Row buildAfterLoading(WidgetRef ref, int selectedIndex,
+      List<DestinationInfo> destinations) {
     return Row(
       children: <Widget>[
         Column(
@@ -87,17 +87,20 @@ class MyApp extends HookConsumerWidget {
               child: NavigationRail(
                 selectedIndex: selectedIndex,
                 onDestinationSelected: (int index) {
-                  ref.read(navigationProvider.state).state = index;
+                  ref
+                      .read(navigationProvider.state)
+                      .state = index;
                 },
                 labelType: NavigationRailLabelType.selected,
                 destinations: destinations
                     .map(
-                      (DestinationInfo e) => NavigationRailDestination(
+                      (DestinationInfo e) =>
+                      NavigationRailDestination(
                         icon: e.icon,
                         selectedIcon: e.selectedIcon,
                         label: e.label,
                       ),
-                    )
+                )
                     .toList(),
               ),
             ),

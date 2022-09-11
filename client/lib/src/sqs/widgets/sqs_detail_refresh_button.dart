@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
-import 'package:localstack_dashboard_client/src/sqs/sqs_provider_mapper.dart';
-import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
+import 'package:cloud_dashboard_client/src/sqs/models/sqs_queue_info.dart';
+import 'package:cloud_dashboard_client/src/sqs/sqs_provider_mapper.dart';
+import 'package:cloud_dashboard_client/src/widgets/card_button.dart';
 
 class SqsDetailRefreshButton extends HookConsumerWidget {
   final ModelSqsQueueInfo queue;

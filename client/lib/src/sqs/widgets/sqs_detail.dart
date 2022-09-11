@@ -2,14 +2,14 @@ import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/logger.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
-import 'package:localstack_dashboard_client/src/sqs/sqs_provider_mapper.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_detail_refresh_button.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_purge_button.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_receive_message_button.dart';
-import 'package:localstack_dashboard_client/src/sqs/widgets/sqs_send_message_button.dart';
-import 'package:localstack_dashboard_client/src/utils/short_cut.dart';
+import 'package:cloud_dashboard_client/src/logger.dart';
+import 'package:cloud_dashboard_client/src/sqs/models/sqs_queue_info.dart';
+import 'package:cloud_dashboard_client/src/sqs/sqs_provider_mapper.dart';
+import 'package:cloud_dashboard_client/src/sqs/widgets/sqs_detail_refresh_button.dart';
+import 'package:cloud_dashboard_client/src/sqs/widgets/sqs_purge_button.dart';
+import 'package:cloud_dashboard_client/src/sqs/widgets/sqs_receive_message_button.dart';
+import 'package:cloud_dashboard_client/src/sqs/widgets/sqs_send_message_button.dart';
+import 'package:cloud_dashboard_client/src/utils/short_cut.dart';
 
 final visibleElements = [
   "approximateNumberOfMessages",
@@ -26,8 +26,12 @@ class SqsDetail extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(SQSProviderMapper.detailFutureProvider(queue), (previous, next) {
       if (next is AsyncData) {
-        ref.read(SQSProviderMapper.detailStateProvider(queue).state).state =
-            next.value!;
+        ref
+            .read(SQSProviderMapper
+            .detailStateProvider(queue)
+            .state)
+            .state =
+        next.value!;
       }
       if (next is AsyncError) {
         logger.e(next);
@@ -74,9 +78,9 @@ class SqsDetail extends HookConsumerWidget {
       {bool isDefaultShowElements = true}) {
     return sqsDetail.entries
         .where((element) =>
-            visibleElements.contains(element.key.name) == isDefaultShowElements)
+    visibleElements.contains(element.key.name) == isDefaultShowElements)
         .map(
-      (e) {
+          (e) {
         return buildAttributeElement(e.key.name, e.value);
       },
     );

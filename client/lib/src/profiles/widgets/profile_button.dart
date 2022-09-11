@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/profiles/models/profile.dart';
-import 'package:localstack_dashboard_client/src/profiles/providers/profile_provider.dart';
-import 'package:localstack_dashboard_client/src/profiles/widgets/profile_setting_dialog.dart';
+import 'package:cloud_dashboard_client/src/profiles/models/profile.dart';
+import 'package:cloud_dashboard_client/src/profiles/providers/profile_provider.dart';
+import 'package:cloud_dashboard_client/src/profiles/widgets/profile_setting_dialog.dart';
 
 class ProfileButton extends HookConsumerWidget {
   const ProfileButton({Key? key}) : super(key: key);
@@ -26,20 +26,21 @@ class ProfileButton extends HookConsumerWidget {
       itemBuilder: (BuildContext context) {
         return <PopupMenuEntry<Object>>[
           ...profileController.profiles.map(
-            (e) => PopupMenuItem<Object>(
-              value: e,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 12.0, 0),
-                    child: e.isSelect
-                        ? const Icon(Icons.check_box)
-                        : const Icon(Icons.check_box_outline_blank),
+                (e) =>
+                PopupMenuItem<Object>(
+                  value: e,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 12.0, 0),
+                        child: e.isSelect
+                            ? const Icon(Icons.check_box)
+                            : const Icon(Icons.check_box_outline_blank),
+                      ),
+                      Text(e.alias),
+                    ],
                   ),
-                  Text(e.alias),
-                ],
-              ),
-            ),
+                ),
           ),
           const PopupMenuItem<Object>(
             value: "SETTING",

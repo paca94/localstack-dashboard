@@ -1,12 +1,12 @@
 import 'package:aws_sqs_api/sqs-2012-11-05.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:localstack_dashboard_client/src/sqs/models/sqs_queue_info.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_detail_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_list_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_attach_service_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_detail_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
-import 'package:localstack_dashboard_client/src/sqs/providers/sqs_service_provider.dart';
+import 'package:cloud_dashboard_client/src/sqs/models/sqs_queue_info.dart';
+import 'package:cloud_dashboard_client/src/sqs/providers/sqs_attach_detail_provider.dart';
+import 'package:cloud_dashboard_client/src/sqs/providers/sqs_attach_list_provider.dart';
+import 'package:cloud_dashboard_client/src/sqs/providers/sqs_attach_service_provider.dart';
+import 'package:cloud_dashboard_client/src/sqs/providers/sqs_detail_provider.dart';
+import 'package:cloud_dashboard_client/src/sqs/providers/sqs_list_provider.dart';
+import 'package:cloud_dashboard_client/src/sqs/providers/sqs_service_provider.dart';
 
 /// The implementation of the sqs accessible by the profile and
 /// the added sqs are slightly different, so I wrote a mapper and used it.

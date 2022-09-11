@@ -1,8 +1,8 @@
+import 'package:cloud_dashboard_client/src/database/hive_types.dart';
+import 'package:cloud_dashboard_client/src/enums.dart';
+import 'package:cloud_dashboard_client/src/enums_extension.dart';
+import 'package:cloud_dashboard_client/src/utils/generate_utils.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:localstack_dashboard_client/src/database/hive_types.dart';
-import 'package:localstack_dashboard_client/src/enums.dart';
-import 'package:localstack_dashboard_client/src/enums_extension.dart';
-import 'package:localstack_dashboard_client/src/utils/generate_utils.dart';
 
 class ProfileAdapter extends TypeAdapter<ModelProfile> {
   @override
@@ -77,7 +77,7 @@ class ModelProfile {
         isSelect = true;
 
   @HiveField(0)
-  final int id;
+  final String id;
   @HiveField(1)
   final String alias;
   @HiveField(2)

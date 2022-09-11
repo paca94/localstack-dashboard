@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:localstack_dashboard_client/src/sqs/dialogs/sqs_attach_dialog.dart';
-import 'package:localstack_dashboard_client/src/widgets/card_button.dart';
+import 'package:cloud_dashboard_client/src/sqs/dialogs/sqs_attach_dialog.dart';
+import 'package:cloud_dashboard_client/src/widgets/card_button.dart';
 
 class SqsAttachButton extends StatelessWidget {
   const SqsAttachButton({
