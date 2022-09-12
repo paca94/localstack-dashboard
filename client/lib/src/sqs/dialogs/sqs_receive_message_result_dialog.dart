@@ -1,7 +1,7 @@
 import 'package:aws_sqs_api/sqs-2012-11-05.dart';
-import 'package:flutter/material.dart';
-import 'package:cloud_dashboard_client/src/enums.dart';
+import 'package:cloud_dashboard_client/src/common/enums.dart';
 import 'package:cloud_dashboard_client/src/utils/short_cut.dart';
+import 'package:flutter/material.dart';
 
 Future<SQSReceiveMessageActionEnum?> showSQSReceiveMessageResultDialog(context,
     Future<ReceiveMessageResult> receivedMessage, Function buildChild) async {

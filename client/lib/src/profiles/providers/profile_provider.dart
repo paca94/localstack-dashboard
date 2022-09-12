@@ -1,5 +1,5 @@
+import 'package:cloud_dashboard_client/src/common/enums.dart';
 import 'package:cloud_dashboard_client/src/database/db_provider.dart';
-import 'package:cloud_dashboard_client/src/enums.dart';
 import 'package:cloud_dashboard_client/src/profiles/models/profile.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';

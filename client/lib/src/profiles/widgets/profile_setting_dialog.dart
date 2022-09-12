@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:cloud_dashboard_client/src/enums.dart';
+import 'package:cloud_dashboard_client/src/common/enums.dart';
 import 'package:cloud_dashboard_client/src/profiles/models/profile.dart';
 import 'package:cloud_dashboard_client/src/profiles/providers/profile_provider.dart';
 import 'package:cloud_dashboard_client/src/widgets/card_button.dart';
 import 'package:cloud_dashboard_client/src/widgets/scrollable_navigation_rail.dart';
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final _appendProfileProvider = StateProvider<ModelProfile?>((ref) => null);
 

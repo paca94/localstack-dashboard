@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cloud_dashboard_client/src/enums.dart';
+import 'package:cloud_dashboard_client/src/common/enums.dart';
 import 'package:cloud_dashboard_client/src/profiles/models/profile.dart';
 import 'package:cloud_dashboard_client/src/sqs/models/sqs_attach_queue.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

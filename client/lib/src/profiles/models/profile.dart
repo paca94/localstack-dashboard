@@ -1,6 +1,6 @@
+import 'package:cloud_dashboard_client/src/common/enums.dart';
+import 'package:cloud_dashboard_client/src/common/enums_extension.dart';
 import 'package:cloud_dashboard_client/src/database/hive_types.dart';
-import 'package:cloud_dashboard_client/src/enums.dart';
-import 'package:cloud_dashboard_client/src/enums_extension.dart';
 import 'package:cloud_dashboard_client/src/utils/generate_utils.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

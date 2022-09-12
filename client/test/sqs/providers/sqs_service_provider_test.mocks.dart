@@ -6,7 +6,7 @@
 import 'dart:async' as _i5;
 import 'dart:ui' as _i7;
 
-import 'package:cloud_dashboard_client/src/enums.dart' as _i6;
+import 'package:cloud_dashboard_client/src/common/enums.dart' as _i6;
 import 'package:cloud_dashboard_client/src/profiles/models/profile.dart' as _i3;
 import 'package:cloud_dashboard_client/src/profiles/providers/profile_provider.dart'
     as _i4;
