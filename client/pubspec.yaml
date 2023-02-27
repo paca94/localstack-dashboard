@@ -49,7 +49,7 @@ dependencies:
   expandable: ^5.0.1
   hive_flutter: ^1.1.0
   flutter_secure_storage: ^7.0.1
-  logger: ^1.1.0
+  logger: ^1.2.2
   multi_split_view: ^2.1.0
 
 dev_dependencies:
